@@ -1,0 +1,90 @@
+{
+  "common": {
+    "home": "Home",
+    "products": "Products",
+    "about": "About Us",
+    "contact": "Contact",
+    "allProducts": "All Products",
+    "viewAll": "View All",
+    "viewDetails": "View Details",
+    "learnMore": "Learn More",
+    "getQuote": "Get Quote",
+    "callUs": "Call Us",
+    "sendMessage": "Send Message",
+    "loading": "Loading...",
+    "error": "An error occurred",
+    "notFound": "Page not found",
+    "backToHome": "Back to Home",
+    "language": "Language",
+    "turkish": "Türkçe",
+    "english": "English"
+  },
+  "hero": {
+    "title": "Professional Packaging Solutions",
+    "subtitle": "Your expert partner in industrial packaging materials and strapping systems",
+    "cta": "Explore Our Products"
+  },
+  "categories": {
+    "title": "Our Product Categories",
+    "subtitle": "Professional packaging solutions for your needs"
+  },
+  "about": {
+    "title": "About Us",
+    "subtitle": "As NG Ambalaj, we are your reliable partner in the industrial packaging sector",
+    "mission": "Our Mission",
+    "missionText": "To provide our customers with the highest quality packaging materials at the most competitive prices with the fastest delivery.",
+    "vision": "Our Vision",
+    "visionText": "To become Turkey's leading packaging materials supplier and offer innovative solutions in the sector.",
+    "experience": "Years of Experience",
+    "customers": "Happy Customers",
+    "products": "Product Variety",
+    "delivery": "Fast Delivery",
+    "yearsExperience": "15+ Years",
+    "happyCustomers": "500+",
+    "productVariety": "200+",
+    "fastDelivery": "24 Hours"
+  },
+  "cta": {
+    "title": "For Professional Packaging Solutions",
+    "subtitle": "Contact us now for solutions tailored to your needs",
+    "button": "Get a Quote Now"
+  },
+  "contact": {
+    "title": "Contact",
+    "subtitle": "Get in touch with us for your questions",
+    "form": {
+      "name": "Your Name",
+      "email": "Your Email",
+      "phone": "Your Phone",
+      "company": "Company Name",
+      "subject": "Subject",
+      "message": "Your Message",
+      "submit": "Submit",
+      "success": "Your message has been sent successfully!",
+      "error": "An error occurred while sending your message."
+    },
+    "info": {
+      "address": "Address",
+      "phone": "Phone",
+      "email": "Email",
+      "workingHours": "Working Hours"
+    }
+  },
+  "footer": {
+    "description": "Your expert partner in industrial packaging materials and strapping systems.",
+    "quickLinks": "Quick Links",
+    "categories": "Categories",
+    "contact": "Contact",
+    "rights": "All rights reserved."
+  },
+  "products": {
+    "title": "Our Products",
+    "subtitle": "Discover our wide range of products",
+    "noProducts": "No products in this category yet.",
+    "description": "Description",
+    "specifications": "Specifications",
+    "relatedProducts": "Related Products",
+    "category": "Category",
+    "subCategory": "Sub Category"
+  }
+}

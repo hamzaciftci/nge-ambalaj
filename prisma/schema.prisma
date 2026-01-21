@@ -1,0 +1,129 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("POSTGRES_PRISMA_URL")
+  directUrl = env("POSTGRES_URL_NON_POOLING")
+}
+
+enum Role {
+  ADMIN
+  SUPER_ADMIN
+}
+
+model User {
+  id           String    @id @default(cuid())
+  email        String    @unique
+  passwordHash String
+  name         String?
+  role         Role      @default(ADMIN)
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+  sessions     Session[]
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model MainCategory {
+  id            String        @id @default(cuid())
+  slug          String        @unique
+  name          String
+  nameEn        String?
+  description   String        @db.Text
+  descriptionEn String?       @db.Text
+  image         String
+  order         Int           @default(0)
+  isActive      Boolean       @default(true)
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+  subCategories SubCategory[]
+}
+
+model SubCategory {
+  id             String       @id @default(cuid())
+  slug           String
+  name           String
+  nameEn         String?
+  description    String       @db.Text
+  descriptionEn  String?      @db.Text
+  image          String?
+  order          Int          @default(0)
+  isActive       Boolean      @default(true)
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+  mainCategoryId String
+  mainCategory   MainCategory @relation(fields: [mainCategoryId], references: [id], onDelete: Cascade)
+  products       Product[]
+
+  @@unique([mainCategoryId, slug])
+}
+
+model Product {
+  id                String         @id @default(cuid())
+  slug              String
+  name              String
+  nameEn            String?
+  description       String         @db.Text
+  descriptionEn     String?        @db.Text
+  longDescription   String?        @db.Text
+  longDescriptionEn String?        @db.Text
+  image             String
+  order             Int            @default(0)
+  isActive          Boolean        @default(true)
+  isFeatured        Boolean        @default(false)
+  createdAt         DateTime       @default(now())
+  updatedAt         DateTime       @updatedAt
+  subCategoryId     String
+  subCategory       SubCategory    @relation(fields: [subCategoryId], references: [id], onDelete: Cascade)
+  images            ProductImage[]
+
+  @@unique([subCategoryId, slug])
+}
+
+model ProductImage {
+  id        String   @id @default(cuid())
+  url       String
+  alt       String?
+  order     Int      @default(0)
+  productId String
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+}
+
+model SiteSettings {
+  id           String   @id @default("default")
+  siteName     String   @default("NG Ambalaj")
+  siteNameEn   String?
+  phone        String?
+  email        String?
+  address      String?  @db.Text
+  addressEn    String?  @db.Text
+  workingHours String?  @db.Text
+  socialLinks  Json?
+  logoUrl      String?
+  heroTitle    String?
+  heroTitleEn  String?
+  heroSubtitle String?  @db.Text
+  heroSubtitleEn String? @db.Text
+  heroImage    String?
+  updatedAt    DateTime @updatedAt
+}
+
+model ContactSubmission {
+  id        String   @id @default(cuid())
+  name      String
+  email     String
+  phone     String?
+  company   String?
+  subject   String?
+  message   String   @db.Text
+  isRead    Boolean  @default(false)
+  createdAt DateTime @default(now())
+}

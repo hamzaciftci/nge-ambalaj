@@ -1,0 +1,90 @@
+{
+  "common": {
+    "home": "Ana Sayfa",
+    "products": "Ürünler",
+    "about": "Hakkımızda",
+    "contact": "İletişim",
+    "allProducts": "Tüm Ürünler",
+    "viewAll": "Tümünü Gör",
+    "viewDetails": "Detayları Gör",
+    "learnMore": "Daha Fazla",
+    "getQuote": "Teklif Al",
+    "callUs": "Bizi Arayın",
+    "sendMessage": "Mesaj Gönder",
+    "loading": "Yükleniyor...",
+    "error": "Bir hata oluştu",
+    "notFound": "Sayfa bulunamadı",
+    "backToHome": "Ana Sayfaya Dön",
+    "language": "Dil",
+    "turkish": "Türkçe",
+    "english": "English"
+  },
+  "hero": {
+    "title": "Profesyonel Ambalaj Çözümleri",
+    "subtitle": "Endüstriyel ambalaj malzemeleri ve çemberleme sistemlerinde uzman çözüm ortağınız",
+    "cta": "Ürünlerimizi Keşfedin"
+  },
+  "categories": {
+    "title": "Ürün Kategorilerimiz",
+    "subtitle": "İhtiyacınıza uygun profesyonel ambalaj çözümleri"
+  },
+  "about": {
+    "title": "Hakkımızda",
+    "subtitle": "NG Ambalaj olarak, endüstriyel ambalaj sektöründe güvenilir çözüm ortağınızız",
+    "mission": "Misyonumuz",
+    "missionText": "Müşterilerimize en kaliteli ambalaj malzemelerini, en uygun fiyatlarla ve en hızlı teslimatla sunmak.",
+    "vision": "Vizyonumuz",
+    "visionText": "Türkiye'nin lider ambalaj malzemeleri tedarikçisi olmak ve sektörde yenilikçi çözümler sunmak.",
+    "experience": "Yıllık Deneyim",
+    "customers": "Mutlu Müşteri",
+    "products": "Ürün Çeşidi",
+    "delivery": "Hızlı Teslimat",
+    "yearsExperience": "15+ Yıl",
+    "happyCustomers": "500+",
+    "productVariety": "200+",
+    "fastDelivery": "24 Saat"
+  },
+  "cta": {
+    "title": "Profesyonel Ambalaj Çözümleri İçin",
+    "subtitle": "İhtiyacınıza özel çözümler için hemen bizimle iletişime geçin",
+    "button": "Hemen Teklif Alın"
+  },
+  "contact": {
+    "title": "İletişim",
+    "subtitle": "Sorularınız için bizimle iletişime geçin",
+    "form": {
+      "name": "Adınız Soyadınız",
+      "email": "E-posta Adresiniz",
+      "phone": "Telefon Numaranız",
+      "company": "Firma Adı",
+      "subject": "Konu",
+      "message": "Mesajınız",
+      "submit": "Gönder",
+      "success": "Mesajınız başarıyla gönderildi!",
+      "error": "Mesaj gönderilirken bir hata oluştu."
+    },
+    "info": {
+      "address": "Adres",
+      "phone": "Telefon",
+      "email": "E-posta",
+      "workingHours": "Çalışma Saatleri"
+    }
+  },
+  "footer": {
+    "description": "Endüstriyel ambalaj malzemeleri ve çemberleme sistemlerinde uzman çözüm ortağınız.",
+    "quickLinks": "Hızlı Bağlantılar",
+    "categories": "Kategoriler",
+    "contact": "İletişim",
+    "rights": "Tüm hakları saklıdır."
+  },
+  "products": {
+    "title": "Ürünlerimiz",
+    "subtitle": "Geniş ürün yelpazemizi keşfedin",
+    "noProducts": "Bu kategoride henüz ürün bulunmamaktadır.",
+    "description": "Açıklama",
+    "specifications": "Teknik Özellikler",
+    "relatedProducts": "İlgili Ürünler",
+    "category": "Kategori",
+    "subCategory": "Alt Kategori"
+  }
+}
