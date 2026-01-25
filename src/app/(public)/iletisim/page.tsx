@@ -73,20 +73,26 @@ export default function ContactPage() {
     {
       icon: Phone,
       title: "Telefon",
-      value: "+90 212 123 45 67",
-      href: "tel:+902121234567",
+      value: "0532 643 5501",
+      href: "tel:+905326435501",
+    },
+    {
+      icon: Phone,
+      title: "Telefon 2",
+      value: "0533 357 5292",
+      href: "tel:+905333575292",
     },
     {
       icon: Mail,
       title: "E-posta",
-      value: "info@ngambalaj.com",
-      href: "mailto:info@ngambalaj.com",
+      value: "info@ngeltd.net",
+      href: "mailto:info@ngeltd.net",
     },
     {
       icon: MapPin,
       title: "Adres",
-      value: "Organize Sanayi Bölgesi, 5. Cadde No: 12, İstanbul",
-      href: "https://maps.google.com",
+      value: "Adana Organize Sanayi Bölgesi T.Özal Blv. No:6 Z:14 Sarıçam / ADANA",
+      href: "https://maps.google.com/?q=Adana+Organize+Sanayi+Bölgesi",
     },
     {
       icon: Clock,
@@ -297,12 +303,12 @@ export default function ContactPage() {
           <div className="text-center mb-8">
             <h2 className="text-2xl font-bold text-foreground mb-2">Konumumuz</h2>
             <p className="text-muted-foreground">
-              İstanbul Organize Sanayi Bölgesi'nde hizmetinizdeyiz.
+              Adana Organize Sanayi Bölgesi'nde hizmetinizdeyiz.
             </p>
           </div>
           <div className="aspect-[21/9] rounded-2xl overflow-hidden border border-border">
             <iframe
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d96251.37599270089!2d28.847847486328124!3d41.08564899999999!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x14caa5923d0c6d63%3A0x4b21c4bcbcfb1e8c!2sIstanbul%20Organize%20Sanayi%20B%C3%B6lgesi!5e0!3m2!1str!2str!4v1704067200000!5m2!1str!2str"
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3186.8876!2d35.3833!3d37.0167!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x15288f8b6c0e1c1d%3A0x7e8b8b8b8b8b8b8b!2sAdana%20Organize%20Sanayi%20B%C3%B6lgesi!5e0!3m2!1str!2str!4v1704067200000!5m2!1str!2str"
               width="100%"
               height="100%"
               style={{ border: 0 }}

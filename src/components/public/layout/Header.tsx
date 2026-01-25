@@ -60,8 +60,8 @@ export default function Header({ categories, settings }: HeaderProps) {
 
   const isActive = (href: string) => pathname === href;
 
-  const phone = settings?.phone || "+90 212 123 45 67";
-  const email = settings?.email || "info@ngambalaj.com";
+  const phone = settings?.phone || "0532 643 5501";
+  const email = settings?.email || "info@ngeltd.net";
 
   return (
     <header className="relative z-50 bg-white border-b border-gray-200 shadow-sm text-slate-900">

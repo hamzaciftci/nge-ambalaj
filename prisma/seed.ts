@@ -40,11 +40,11 @@ async function main() {
         id: "default",
         siteName: "NG Ambalaj",
         siteNameEn: "NG Packaging",
-        phone: "+90 212 123 45 68",
-        email: "info@ngambalaj.com",
-        address: "Organize Sanayi Bölgesi\n34000 İstanbul, Türkiye",
-        addressEn: "Organized Industrial Zone\n34000 Istanbul, Turkey",
-        workingHours: "Pazartesi - Cuma: 09:00 - 18:00\nCumartesi: 09:00 - 14:00",
+        phone: "0532 643 5501",
+        email: "info@ngeltd.net",
+        address: "Adana Organize Sanayi Bölgesi T.Özal Blv. No:6 Z:14 Sarıçam / ADANA",
+        addressEn: "Adana Organized Industrial Zone T.Özal Blv. No:6 Z:14 Sarıçam / ADANA",
+        workingHours: "Pazartesi - Cumartesi: 08:00 - 18:00",
       },
     });
     console.log("✅ Site settings created");

@@ -70,11 +70,11 @@ export default function Footer({ categories, settings }: FooterProps) {
     { name: t.contact, href: "/iletisim" },
   ];
 
-  const phone = settings?.phone || "+90 212 123 45 67";
-  const email = settings?.email || "info@ngambalaj.com";
+  const phone = settings?.phone || "0532 643 5501";
+  const email = settings?.email || "info@ngeltd.net";
   const address = locale === "en"
-    ? (settings?.addressEn || settings?.address || "Industrial Zone, 5th Street No: 12\nIstanbul, Turkey")
-    : (settings?.address || "Organize Sanayi Bölgesi, 5. Cadde No: 12\nİstanbul, Türkiye");
+    ? (settings?.addressEn || settings?.address || "Adana Organized Industrial Zone T.Özal Blv. No:6 Z:14 Sarıçam / ADANA")
+    : (settings?.address || "Adana Organize Sanayi Bölgesi T.Özal Blv. No:6 Z:14 Sarıçam / ADANA");
   const socialLinks = settings?.socialLinks || {};
 
   return (

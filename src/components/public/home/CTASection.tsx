@@ -28,7 +28,7 @@ const translations = {
 };
 
 export default function CTASection({
-  phone = "+90 212 123 45 67",
+  phone = "0532 643 5501",
 }: CTASectionProps) {
   const { i18n } = useTranslation();
   const locale = (i18n.language as "tr" | "en") || "tr";
