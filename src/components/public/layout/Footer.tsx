@@ -36,11 +36,11 @@ const translations = {
     about: "Hakkımızda",
     contact: "İletişim",
     companyDescription:
-      "1990'dan bu yana endüstriyel ambalaj sektöründe güvenilir çözüm ortağınız. Kaliteli ürünler ve profesyonel hizmet anlayışı ile sektörün lider firmalarından biriyiz.",
+      "2012'den bu yana endüstriyel ambalaj sektöründe güvenilir çözüm ortağınız. Kaliteli ürünler ve profesyonel hizmet anlayışı ile sektörün lider firmalarından biriyiz.",
     productCategories: "Ürün Kategorileri",
     quickLinks: "Hızlı Linkler",
     contactInfo: "İletişim Bilgileri",
-    copyright: `© ${new Date().getFullYear()} NG Ambalaj. Tüm hakları saklıdır.`,
+    copyright: `© ${new Date().getFullYear()} NGE Ambalaj. Tüm hakları saklıdır.`,
     tagline: "Endüstriyel Ambalaj Çözümleri",
   },
   en: {
@@ -49,11 +49,11 @@ const translations = {
     about: "About Us",
     contact: "Contact",
     companyDescription:
-      "Your trusted partner in industrial packaging since 1990. We are one of the leading companies in the sector with quality products and professional service approach.",
+      "Your trusted partner in industrial packaging since 2012. We are one of the leading companies in the sector with quality products and professional service approach.",
     productCategories: "Product Categories",
     quickLinks: "Quick Links",
     contactInfo: "Contact Information",
-    copyright: `© ${new Date().getFullYear()} NG Ambalaj. All rights reserved.`,
+    copyright: `© ${new Date().getFullYear()} NGE Packaging. All rights reserved.`,
     tagline: "Industrial Packaging Solutions",
   },
 };

@@ -97,22 +97,66 @@ model ProductImage {
 }
 
 model SiteSettings {
-  id           String   @id @default("default")
-  siteName     String   @default("NG Ambalaj")
-  siteNameEn   String?
-  phone        String?
-  email        String?
-  address      String?  @db.Text
-  addressEn    String?  @db.Text
-  workingHours String?  @db.Text
-  socialLinks  Json?
-  logoUrl      String?
-  heroTitle    String?
-  heroTitleEn  String?
-  heroSubtitle String?  @db.Text
-  heroSubtitleEn String? @db.Text
-  heroImage    String?
-  updatedAt    DateTime @updatedAt
+  id             String   @id @default("default")
+  siteName       String   @default("NGE Ambalaj")
+  siteNameEn     String?
+  phone          String?
+  phone2         String?
+  email          String?
+  whatsapp       String?
+  address        String?  @db.Text
+  addressEn      String?  @db.Text
+  workingHours   String?  @db.Text
+  workingHoursEn String?  @db.Text
+  mapEmbedUrl    String?  @db.Text
+  socialLinks    Json?    // { facebook, instagram, linkedin, twitter, youtube }
+  logoUrl        String?
+  faviconUrl     String?
+  footerText     String?  @db.Text
+  footerTextEn   String?  @db.Text
+  // SEO defaults
+  defaultSeoTitle       String?
+  defaultSeoTitleEn     String?
+  defaultSeoDescription String? @db.Text
+  defaultSeoDescriptionEn String? @db.Text
+  updatedAt      DateTime @updatedAt
+}
+
+// Page content management (hakkimizda, iletisim, etc.)
+model Page {
+  id              String   @id @default(cuid())
+  slug            String   @unique // anasayfa, hakkimizda, iletisim
+  title           String
+  titleEn         String?
+  content         Json     // Flexible JSON content for page sections
+  contentEn       Json?
+  seoTitle        String?
+  seoTitleEn      String?
+  seoDescription  String?  @db.Text
+  seoDescriptionEn String? @db.Text
+  seoKeywords     String?
+  seoKeywordsEn   String?
+  isActive        Boolean  @default(true)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
+// Homepage hero slider
+model HeroSlide {
+  id              String   @id @default(cuid())
+  title           String
+  titleEn         String?
+  subtitle        String?
+  subtitleEn      String?
+  buttonText      String?
+  buttonTextEn    String?
+  buttonLink      String?
+  imageDesktop    String   // Desktop image URL
+  imageMobile     String?  // Mobile image URL (optional)
+  order           Int      @default(0)
+  isActive        Boolean  @default(true)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
 }
 
 model ContactSubmission {
