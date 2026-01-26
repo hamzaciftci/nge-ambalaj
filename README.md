@@ -134,4 +134,4 @@ npm run db:seed
 
 ## Lisans
 
-Bu proje özel kullanım içindir.
+Geliştirme: 2025 | Versiyon: 1.0.0
