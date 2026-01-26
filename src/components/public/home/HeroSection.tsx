@@ -44,8 +44,8 @@ const badgeVariants: Variants = {
 const translations = {
   tr: {
     badge: "20+ Yıllık Tecrübe",
-    title: "Endüstriyel Ambalaj",
-    titleHighlight: "Çözümleri",
+    title: "NGE Ambalaj -",
+    titleHighlight: "Çember ve Streç Çözümleri",
     description:
       "Çemberleme makineleri, çemberler ve endüstriyel ambalaj ürünlerinde lider tedarikçiniz. Kaliteli ürünler ve profesyonel hizmet.",
     viewProducts: "Ürünleri Keşfet",
@@ -53,8 +53,8 @@ const translations = {
   },
   en: {
     badge: "20+ Years Experience",
-    title: "Industrial Packaging",
-    titleHighlight: "Solutions",
+    title: "NGE Packaging -",
+    titleHighlight: "Strapping & Stretch Solutions",
     description:
       "Your leading supplier in strapping machines, straps and industrial packaging products. Quality products and professional service.",
     viewProducts: "Explore Products",
@@ -86,8 +86,8 @@ export default function HeroSection() {
       {/* Parallax Background - Desktop */}
       <motion.div className="absolute inset-0 z-0 hidden md:block" style={{ y: backgroundY }}>
         <img
-          src="/slider-desktop.jpeg"
-          alt="NG Ambalaj Endüstriyel Çözümler"
+          src="/slider-masaustu.png"
+          alt="NGE Ambalaj - Çember ve Streç Çözümleri"
           className="w-full h-[120%] object-cover brightness-[0.85]"
         />
         <div className="absolute inset-0 bg-gradient-to-r from-foreground/95 via-foreground/75 to-transparent" />
@@ -97,8 +97,8 @@ export default function HeroSection() {
       {/* Parallax Background - Mobile */}
       <motion.div className="absolute inset-0 z-0 md:hidden" style={{ y: backgroundY }}>
         <img
-          src="/slider-mobile.jpeg"
-          alt="NG Ambalaj Endüstriyel Çözümler"
+          src="/slider-mobil.png"
+          alt="NGE Ambalaj - Çember ve Streç Çözümleri"
           className="w-full h-[120%] object-cover brightness-[0.85]"
         />
         <div className="absolute inset-0 bg-gradient-to-r from-foreground/95 via-foreground/75 to-transparent" />
