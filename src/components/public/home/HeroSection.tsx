@@ -83,10 +83,21 @@ export default function HeroSection() {
       ref={sectionRef}
       className="relative h-[600px] flex items-center overflow-hidden"
     >
-      {/* Parallax Background */}
-      <motion.div className="absolute inset-0 z-0" style={{ y: backgroundY }}>
+      {/* Parallax Background - Desktop */}
+      <motion.div className="absolute inset-0 z-0 hidden md:block" style={{ y: backgroundY }}>
         <img
-          src="/hero-bg.jpg"
+          src="/slider-desktop.jpeg"
+          alt="NG Ambalaj Endüstriyel Çözümler"
+          className="w-full h-[120%] object-cover brightness-[0.85]"
+        />
+        <div className="absolute inset-0 bg-gradient-to-r from-foreground/95 via-foreground/75 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent opacity-50" />
+      </motion.div>
+
+      {/* Parallax Background - Mobile */}
+      <motion.div className="absolute inset-0 z-0 md:hidden" style={{ y: backgroundY }}>
+        <img
+          src="/slider-mobile.jpeg"
           alt="NG Ambalaj Endüstriyel Çözümler"
           className="w-full h-[120%] object-cover brightness-[0.85]"
         />
