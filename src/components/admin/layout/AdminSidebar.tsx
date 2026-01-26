@@ -10,10 +10,14 @@ import {
   MessageSquare,
   Settings,
   Layers,
+  FileText,
+  Image,
 } from "lucide-react";
 
 const navigation = [
   { name: "Panel", href: "/admin", icon: LayoutDashboard },
+  { name: "Hero Slider", href: "/admin/hero-slides", icon: Image },
+  { name: "Sayfalar", href: "/admin/pages", icon: FileText },
   { name: "Ana Kategoriler", href: "/admin/categories", icon: FolderTree },
   { name: "Alt Kategoriler", href: "/admin/subcategories", icon: Layers },
   { name: "Ürünler", href: "/admin/products", icon: Package },

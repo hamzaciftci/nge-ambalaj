@@ -38,16 +38,125 @@ async function main() {
     await prisma.siteSettings.create({
       data: {
         id: "default",
-        siteName: "NG Ambalaj",
-        siteNameEn: "NG Packaging",
+        siteName: "NGE Ambalaj",
+        siteNameEn: "NGE Packaging",
         phone: "0532 643 5501",
+        phone2: "0533 357 5292",
         email: "info@ngeltd.net",
+        whatsapp: "+905326435501",
         address: "Adana Organize Sanayi Bölgesi T.Özal Blv. No:6 Z:14 Sarıçam / ADANA",
         addressEn: "Adana Organized Industrial Zone T.Özal Blv. No:6 Z:14 Sarıçam / ADANA",
         workingHours: "Pazartesi - Cumartesi: 08:00 - 18:00",
+        workingHoursEn: "Monday - Saturday: 08:00 - 18:00",
+        footerText: "NGE Ambalaj - Endüstriyel ambalaj çözümlerinde güvenilir iş ortağınız.",
+        footerTextEn: "NGE Packaging - Your reliable partner in industrial packaging solutions.",
+        defaultSeoTitle: "NGE Ambalaj | Endüstriyel Ambalaj Çözümleri",
+        defaultSeoTitleEn: "NGE Packaging | Industrial Packaging Solutions",
+        defaultSeoDescription: "NGE Ambalaj - Çemberleme makineleri, PET/PP çemberler, streç filmler ve endüstriyel ambalaj çözümleri.",
+        defaultSeoDescriptionEn: "NGE Packaging - Strapping machines, PET/PP straps, stretch films and industrial packaging solutions.",
       },
     });
     console.log("✅ Site settings created");
+  }
+
+  // Create default pages
+  const defaultPages = [
+    {
+      slug: "hakkimizda",
+      title: "Hakkımızda",
+      titleEn: "About Us",
+      content: {
+        heroTitle: "Hakkımızda",
+        heroSubtitle: "2012'den bu yana endüstriyel ambalaj sektöründe güvenilir çözüm ortağınız.",
+        mainContent: `NGE Ambalaj, 2012 yılında kurulmuş olup, Türkiye'nin güneyinde Adana Organize Sanayi Bölgesi'nde faaliyet gösteren bir endüstriyel ambalaj malzemeleri ticaret firmasıdır. Sektörün dinamiklerine uygun, yüksek kalite ve sürdürülebilir iş ortaklığı ilkeleriyle çalışıyoruz.
+
+Kuruluşumuzdan bu yana temel misyonumuz, işletmelerin lojistik ve sevkiyat süreçlerini optimize eden endüstriyel streç filmler (ön gerdirilmiş streç) ve PET çemberler başta olmak üzere ambalaj çözümleri sunmaktır. Ürünlerimiz; dayanıklılık, mukavemet ve güvenilir performans kriterleriyle seçilir, ulusal ve uluslararası standartlara uygun şekilde tedarik edilir.
+
+NGE Ambalaj olarak biz:
+- İş ortaklarımızın tedarik zincirini güçlendiren kaliteli ambalaj malzemeleri sağlıyoruz
+- Her ölçekten işletmeye uygun ürün portföyüyle hızlı ve etkili ticari çözümler sunuyoruz
+- İthalat ve ihracat süreçlerinde güvenilir lojistik desteği sağlıyoruz
+- Müşteri memnuniyetini her zaman önceliğimiz olarak kabul ediyoruz
+
+Müşterilerimizle kurduğumuz ilişkilerde şeffaflık, doğruluk ve süreklilik temel değerlerimizdir.`,
+      },
+      contentEn: {
+        heroTitle: "About Us",
+        heroSubtitle: "Your reliable partner in industrial packaging since 2012.",
+        mainContent: `NGE Packaging was established in 2012 and operates as an industrial packaging materials trading company in Adana Organized Industrial Zone in southern Turkey. We work with principles of high quality and sustainable business partnership suitable for the dynamics of the sector.
+
+Since our establishment, our main mission is to provide packaging solutions, especially industrial stretch films (pre-stretched stretch) and PET straps that optimize the logistics and shipping processes of businesses. Our products are selected with durability, strength and reliable performance criteria and supplied in accordance with national and international standards.
+
+As NGE Packaging, we:
+- Provide quality packaging materials that strengthen our business partners' supply chain
+- Offer fast and effective commercial solutions with a product portfolio suitable for businesses of all sizes
+- Provide reliable logistics support in import and export processes
+- Always consider customer satisfaction as our priority
+
+Transparency, accuracy and continuity are our core values in our relationships with our customers.`,
+      },
+      seoTitle: "Hakkımızda | NGE Ambalaj",
+      seoTitleEn: "About Us | NGE Packaging",
+      seoDescription: "NGE Ambalaj hakkında - 2012'den bu yana endüstriyel ambalaj sektöründe güvenilir çözüm ortağınız.",
+      seoDescriptionEn: "About NGE Packaging - Your reliable partner in industrial packaging since 2012.",
+      isActive: true,
+    },
+    {
+      slug: "iletisim",
+      title: "İletişim",
+      titleEn: "Contact",
+      content: {
+        heroTitle: "İletişim",
+        heroSubtitle: "Sorularınız için bize ulaşın, en kısa sürede size dönüş yapalım.",
+        mainContent: "Endüstriyel ambalaj ihtiyaçlarınız için bizimle iletişime geçin.",
+      },
+      contentEn: {
+        heroTitle: "Contact",
+        heroSubtitle: "Contact us with your questions, we will get back to you as soon as possible.",
+        mainContent: "Contact us for your industrial packaging needs.",
+      },
+      seoTitle: "İletişim | NGE Ambalaj",
+      seoTitleEn: "Contact | NGE Packaging",
+      seoDescription: "NGE Ambalaj iletişim bilgileri - Adana Organize Sanayi Bölgesi",
+      seoDescriptionEn: "NGE Packaging contact information - Adana Organized Industrial Zone",
+      isActive: true,
+    },
+  ];
+
+  for (const pageData of defaultPages) {
+    const existingPage = await prisma.page.findUnique({
+      where: { slug: pageData.slug },
+    });
+
+    if (!existingPage) {
+      await prisma.page.create({
+        data: pageData,
+      });
+      console.log(`✅ Page created: ${pageData.title}`);
+    } else {
+      console.log(`ℹ️ Page already exists: ${pageData.slug}`);
+    }
+  }
+
+  // Create default hero slide
+  const existingSlides = await prisma.heroSlide.findMany();
+  if (existingSlides.length === 0) {
+    await prisma.heroSlide.create({
+      data: {
+        title: "NGE Ambalaj",
+        titleEn: "NGE Packaging",
+        subtitle: "Çember ve Streç Çözümleri",
+        subtitleEn: "Strapping & Stretch Solutions",
+        buttonText: "Ürünlerimizi İnceleyin",
+        buttonTextEn: "Explore Our Products",
+        buttonLink: "/urunler",
+        imageDesktop: "/slider-masaustu.png",
+        imageMobile: "/slider-mobil.png",
+        order: 0,
+        isActive: true,
+      },
+    });
+    console.log("✅ Default hero slide created");
   }
 
   // Delete existing data to reseed
