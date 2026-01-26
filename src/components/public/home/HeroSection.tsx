@@ -160,10 +160,10 @@ export default function HeroSection() {
           </motion.span>
 
           {/* Main Heading */}
-          <div className="overflow-hidden mb-8">
+          <div className="overflow-hidden mb-8 pt-2">
             <motion.h1
               variants={itemVariants}
-              className="text-5xl md:text-6xl lg:text-7xl font-extrabold text-white leading-[1.1] tracking-tight drop-shadow-sm"
+              className="text-5xl md:text-6xl lg:text-7xl font-extrabold text-white leading-[1.15] tracking-tight drop-shadow-sm"
             >
               {t.title}{" "}
               <span className="block mt-2">
