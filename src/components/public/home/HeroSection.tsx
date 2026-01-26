@@ -44,7 +44,7 @@ const badgeVariants: Variants = {
 const translations = {
   tr: {
     badge: "20+ Yıllık Tecrübe",
-    title: "NGE Ambalaj -",
+    title: "NGE Ambalaj",
     titleHighlight: "Çember ve Streç Çözümleri",
     description:
       "Çemberleme makineleri, çemberler ve endüstriyel ambalaj ürünlerinde lider tedarikçiniz. Kaliteli ürünler ve profesyonel hizmet.",
