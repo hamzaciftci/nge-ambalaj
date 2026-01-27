@@ -1,6 +1,35 @@
+import { Metadata } from "next";
 import { prisma } from "@/lib/prisma";
-export const dynamic = "force-dynamic";
 import Link from "next/link";
+
+export const dynamic = "force-dynamic";
+
+export const metadata: Metadata = {
+  title: "Ürünlerimiz | NGE Ambalaj - Endüstriyel Ambalaj Ürünleri",
+  description:
+    "NGE Ambalaj ürün kataloğu: Çemberleme makineleri, PET çemberler, çelik çemberler, streç filmler, ambalaj malzemeleri ve endüstriyel yağlar. Geniş ürün yelpazemizi keşfedin.",
+  keywords: [
+    "ambalaj ürünleri",
+    "çemberleme makinesi",
+    "PET çember",
+    "çelik çember",
+    "streç film",
+    "ambalaj malzemeleri",
+    "endüstriyel yağ",
+    "paketleme malzemeleri",
+  ],
+  openGraph: {
+    title: "Ürünlerimiz | NGE Ambalaj",
+    description:
+      "Endüstriyel ambalaj ihtiyaçlarınız için geniş ürün yelpazemizi keşfedin. Çemberleme makineleri, çemberler, streç filmler ve daha fazlası.",
+    type: "website",
+    locale: "tr_TR",
+    siteName: "NGE Ambalaj",
+  },
+  alternates: {
+    canonical: "https://nge-ambalaj.vercel.app/urunler",
+  },
+};
 import { ArrowRight } from "lucide-react";
 
 async function getCategories() {
