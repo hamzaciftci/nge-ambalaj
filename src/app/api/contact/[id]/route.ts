@@ -2,6 +2,8 @@ import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { verifySession } from "@/lib/auth";
 
+export const dynamic = "force-dynamic";
+
 // PUT - Mark message as read
 export async function PUT(
   request: Request,
