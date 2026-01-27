@@ -153,13 +153,17 @@ export default function SettingsPage() {
         body: JSON.stringify(payload),
       });
 
+      const responseData = await res.json();
+
       if (!res.ok) {
-        throw new Error("Kaydetme başarısız");
+        throw new Error(responseData.error || "Kaydetme başarısız");
       }
 
       toast.success("Ayarlar kaydedildi");
     } catch (error) {
-      toast.error("Bir hata oluştu");
+      const errorMessage = error instanceof Error ? error.message : "Bir hata oluştu";
+      toast.error(errorMessage);
+      console.error("Settings save error:", error);
     } finally {
       setLoading(false);
     }
