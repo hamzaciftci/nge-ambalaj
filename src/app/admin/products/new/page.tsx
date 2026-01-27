@@ -1,5 +1,7 @@
 import { prisma } from "@/lib/prisma";
 import ProductForm from "@/components/admin/forms/ProductForm";
+
+export const dynamic = "force-dynamic";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft } from "lucide-react";
