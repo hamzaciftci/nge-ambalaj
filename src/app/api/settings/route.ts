@@ -94,8 +94,9 @@ export async function PUT(request: Request) {
     return NextResponse.json(settings);
   } catch (error) {
     console.error("Error updating settings:", error);
+    const errorMessage = error instanceof Error ? error.message : "Bilinmeyen hata";
     return NextResponse.json(
-      { error: "Ayarlar güncellenirken bir hata oluştu" },
+      { error: `Ayarlar güncellenirken bir hata oluştu: ${errorMessage}` },
       { status: 500 }
     );
   }
