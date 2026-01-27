@@ -2,6 +2,8 @@ import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { verifySession } from "@/lib/auth";
 
+export const dynamic = "force-dynamic";
+
 // GET single subcategory
 export async function GET(
   request: Request,
