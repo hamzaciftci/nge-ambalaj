@@ -153,10 +153,17 @@ export default function SettingsPage() {
         body: JSON.stringify(payload),
       });
 
-      const responseData = await res.json();
+      let responseData;
+      const responseText = await res.text();
+      try {
+        responseData = responseText ? JSON.parse(responseText) : null;
+      } catch {
+        console.error("API Response (not JSON):", responseText);
+        throw new Error(`Sunucu hatası (${res.status}): ${responseText.substring(0, 200)}`);
+      }
 
       if (!res.ok) {
-        throw new Error(responseData.error || "Kaydetme başarısız");
+        throw new Error(responseData?.error || `Kaydetme başarısız (${res.status})`);
       }
 
       toast.success("Ayarlar kaydedildi");
