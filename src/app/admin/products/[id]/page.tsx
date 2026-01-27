@@ -1,5 +1,7 @@
 import { prisma } from "@/lib/prisma";
 import { notFound } from "next/navigation";
+
+export const dynamic = "force-dynamic";
 import ProductForm from "@/components/admin/forms/ProductForm";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
