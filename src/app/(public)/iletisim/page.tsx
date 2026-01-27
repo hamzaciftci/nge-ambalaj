@@ -1,116 +1,111 @@
-"use client";
+import { prisma } from "@/lib/prisma";
+import { notFound } from "next/navigation";
+import { Phone, Mail, MapPin, Clock } from "lucide-react";
+import ContactForm from "@/components/public/ContactForm";
 
-import { useState } from "react";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import * as z from "zod";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
-import { Phone, Mail, MapPin, Clock, Send, Loader2, CheckCircle } from "lucide-react";
-import { toast } from "sonner";
+export const dynamic = "force-dynamic";
 
-const formSchema = z.object({
-  name: z.string().min(2, "İsim en az 2 karakter olmalıdır"),
-  email: z.string().email("Geçerli bir e-posta adresi giriniz"),
-  phone: z.string().optional(),
-  company: z.string().optional(),
-  subject: z.string().min(3, "Konu en az 3 karakter olmalıdır"),
-  message: z.string().min(10, "Mesaj en az 10 karakter olmalıdır"),
-});
+interface PageContent {
+  heroTitle?: string;
+  heroSubtitle?: string;
+  contactInfoTitle?: string;
+  contactInfoDescription?: string;
+  mapTitle?: string;
+  mapSubtitle?: string;
+  formTitle?: string;
+  successTitle?: string;
+  successMessage?: string;
+  newMessageButton?: string;
+}
 
-type FormData = z.infer<typeof formSchema>;
+interface ContactInfo {
+  icon: typeof Phone;
+  title: string;
+  value: string;
+  href: string | null;
+}
 
-export default function ContactPage() {
-  const [loading, setLoading] = useState(false);
-  const [submitted, setSubmitted] = useState(false);
+async function getPageData() {
+  const [page, settings] = await Promise.all([
+    prisma.page.findUnique({
+      where: { slug: "iletisim" },
+    }),
+    prisma.siteSettings.findUnique({
+      where: { id: "default" },
+    }),
+  ]);
 
-  const form = useForm<FormData>({
-    resolver: zodResolver(formSchema),
-    defaultValues: {
-      name: "",
-      email: "",
-      phone: "",
-      company: "",
-      subject: "",
-      message: "",
-    },
-  });
+  return { page, settings };
+}
 
-  const onSubmit = async (data: FormData) => {
-    setLoading(true);
-    try {
-      const res = await fetch("/api/contact", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
-      });
+export default async function ContactPage() {
+  const { page, settings } = await getPageData();
 
-      if (!res.ok) {
-        const resData = await res.json();
-        throw new Error(resData.error || "Mesaj gönderilemedi");
-      }
+  if (!page || !page.isActive) {
+    notFound();
+  }
 
-      setSubmitted(true);
-      toast.success("Mesajınız başarıyla gönderildi!");
-      form.reset();
-    } catch (error: any) {
-      toast.error(error.message);
-    } finally {
-      setLoading(false);
-    }
-  };
+  const content = (page.content || {}) as PageContent;
 
-  const contactInfo = [
+  // Default values with database override
+  const heroTitle = content.heroTitle || "İletişim";
+  const heroSubtitle = content.heroSubtitle || "Sorularınız ve talepleriniz için bizimle iletişime geçin. Uzman ekibimiz en kısa sürede size dönüş yapacaktır.";
+  const contactInfoTitle = content.contactInfoTitle || "İletişim Bilgileri";
+  const contactInfoDescription = content.contactInfoDescription || "Bizimle aşağıdaki kanallardan iletişime geçebilir veya formu doldurarak mesaj gönderebilirsiniz.";
+  const mapTitle = content.mapTitle || "Konumumuz";
+  const mapSubtitle = content.mapSubtitle || "Adana Organize Sanayi Bölgesi'nde hizmetinizdeyiz.";
+
+  // Get contact info from settings or use defaults
+  const contactInfo: ContactInfo[] = [
     {
       icon: Phone,
       title: "Telefon",
-      value: "0532 643 5501",
-      href: "tel:+905326435501",
+      value: settings?.phone || "0532 643 5501",
+      href: `tel:${settings?.phone?.replace(/\s/g, "") || "+905326435501"}`,
     },
-    {
+  ];
+
+  // Add second phone if exists
+  if (settings?.phone2) {
+    contactInfo.push({
       icon: Phone,
       title: "Telefon 2",
-      value: "0533 357 5292",
-      href: "tel:+905333575292",
-    },
+      value: settings.phone2,
+      href: `tel:${settings.phone2.replace(/\s/g, "")}`,
+    });
+  }
+
+  contactInfo.push(
     {
       icon: Mail,
       title: "E-posta",
-      value: "info@ngeltd.net",
-      href: "mailto:info@ngeltd.net",
+      value: settings?.email || "info@ngeltd.net",
+      href: `mailto:${settings?.email || "info@ngeltd.net"}`,
     },
     {
       icon: MapPin,
       title: "Adres",
-      value: "Adana Organize Sanayi Bölgesi T.Özal Blv. No:6 Z:14 Sarıçam / ADANA",
+      value: settings?.address || "Adana Organize Sanayi Bölgesi T.Özal Blv. No:6 Z:14 Sarıçam / ADANA",
       href: "https://maps.google.com/?q=Adana+Organize+Sanayi+Bölgesi",
     },
     {
       icon: Clock,
       title: "Çalışma Saatleri",
-      value: "Pazartesi - Cumartesi: 08:00 - 18:00",
+      value: settings?.workingHours || "Pazartesi - Cumartesi: 08:00 - 18:00",
       href: null,
-    },
-  ];
+    }
+  );
+
+  const mapEmbedUrl = settings?.mapEmbedUrl || "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3186.8876!2d35.3833!3d37.0167!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x15288f8b6c0e1c1d%3A0x7e8b8b8b8b8b8b8b!2sAdana%20Organize%20Sanayi%20B%C3%B6lgesi!5e0!3m2!1str!2str!4v1704067200000!5m2!1str!2str";
 
   return (
     <div className="min-h-screen bg-background">
       {/* Hero Section */}
       <section className="bg-background border-b border-border py-16">
         <div className="container-custom">
-          <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-4">İletişim</h1>
+          <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-4">{heroTitle}</h1>
           <p className="text-muted-foreground text-lg max-w-2xl">
-            Sorularınız ve talepleriniz için bizimle iletişime geçin.
-            Uzman ekibimiz en kısa sürede size dönüş yapacaktır.
+            {heroSubtitle}
           </p>
         </div>
       </section>
@@ -123,11 +118,10 @@ export default function ContactPage() {
             <div className="lg:col-span-1 space-y-6">
               <div>
                 <h2 className="text-2xl font-bold text-foreground mb-4">
-                  İletişim Bilgileri
+                  {contactInfoTitle}
                 </h2>
                 <p className="text-muted-foreground">
-                  Bizimle aşağıdaki kanallardan iletişime geçebilir veya
-                  formu doldurarak mesaj gönderebilirsiniz.
+                  {contactInfoDescription}
                 </p>
               </div>
 
@@ -162,136 +156,12 @@ export default function ContactPage() {
 
             {/* Contact Form */}
             <div className="lg:col-span-2">
-              <div className="bg-card rounded-2xl border border-border p-8">
-                <h2 className="text-2xl font-bold text-foreground mb-6">
-                  Mesaj Gönderin
-                </h2>
-
-                {submitted ? (
-                  <div className="text-center py-12">
-                    <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                      <CheckCircle className="h-8 w-8 text-green-600" />
-                    </div>
-                    <h3 className="text-xl font-semibold text-foreground mb-2">
-                      Mesajınız Gönderildi!
-                    </h3>
-                    <p className="text-muted-foreground mb-6">
-                      En kısa sürede size dönüş yapacağız.
-                    </p>
-                    <Button onClick={() => setSubmitted(false)}>
-                      Yeni Mesaj Gönder
-                    </Button>
-                  </div>
-                ) : (
-                  <Form {...form}>
-                    <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-                      <div className="grid sm:grid-cols-2 gap-6">
-                        <FormField
-                          control={form.control}
-                          name="name"
-                          render={({ field }) => (
-                            <FormItem>
-                              <FormLabel>İsim Soyisim *</FormLabel>
-                              <FormControl>
-                                <Input {...field} placeholder="Adınız Soyadınız" />
-                              </FormControl>
-                              <FormMessage />
-                            </FormItem>
-                          )}
-                        />
-                        <FormField
-                          control={form.control}
-                          name="email"
-                          render={({ field }) => (
-                            <FormItem>
-                              <FormLabel>E-posta *</FormLabel>
-                              <FormControl>
-                                <Input {...field} type="email" placeholder="ornek@email.com" />
-                              </FormControl>
-                              <FormMessage />
-                            </FormItem>
-                          )}
-                        />
-                      </div>
-
-                      <div className="grid sm:grid-cols-2 gap-6">
-                        <FormField
-                          control={form.control}
-                          name="phone"
-                          render={({ field }) => (
-                            <FormItem>
-                              <FormLabel>Telefon</FormLabel>
-                              <FormControl>
-                                <Input {...field} placeholder="+90 5XX XXX XX XX" />
-                              </FormControl>
-                              <FormMessage />
-                            </FormItem>
-                          )}
-                        />
-                        <FormField
-                          control={form.control}
-                          name="company"
-                          render={({ field }) => (
-                            <FormItem>
-                              <FormLabel>Firma</FormLabel>
-                              <FormControl>
-                                <Input {...field} placeholder="Firma Adı" />
-                              </FormControl>
-                              <FormMessage />
-                            </FormItem>
-                          )}
-                        />
-                      </div>
-
-                      <FormField
-                        control={form.control}
-                        name="subject"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>Konu *</FormLabel>
-                            <FormControl>
-                              <Input {...field} placeholder="Mesajınızın konusu" />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-
-                      <FormField
-                        control={form.control}
-                        name="message"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>Mesaj *</FormLabel>
-                            <FormControl>
-                              <Textarea
-                                {...field}
-                                placeholder="Mesajınızı buraya yazın..."
-                                rows={6}
-                              />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-
-                      <Button type="submit" size="lg" className="w-full gap-2" disabled={loading}>
-                        {loading ? (
-                          <>
-                            <Loader2 className="h-5 w-5 animate-spin" />
-                            Gönderiliyor...
-                          </>
-                        ) : (
-                          <>
-                            <Send className="h-5 w-5" />
-                            Mesaj Gönder
-                          </>
-                        )}
-                      </Button>
-                    </form>
-                  </Form>
-                )}
-              </div>
+              <ContactForm
+                formTitle={content.formTitle}
+                successTitle={content.successTitle}
+                successMessage={content.successMessage}
+                newMessageButton={content.newMessageButton}
+              />
             </div>
           </div>
         </div>
@@ -301,14 +171,14 @@ export default function ContactPage() {
       <section className="py-16 bg-secondary">
         <div className="container-custom">
           <div className="text-center mb-8">
-            <h2 className="text-2xl font-bold text-foreground mb-2">Konumumuz</h2>
+            <h2 className="text-2xl font-bold text-foreground mb-2">{mapTitle}</h2>
             <p className="text-muted-foreground">
-              Adana Organize Sanayi Bölgesi'nde hizmetinizdeyiz.
+              {mapSubtitle}
             </p>
           </div>
           <div className="aspect-[21/9] rounded-2xl overflow-hidden border border-border">
             <iframe
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3186.8876!2d35.3833!3d37.0167!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x15288f8b6c0e1c1d%3A0x7e8b8b8b8b8b8b8b!2sAdana%20Organize%20Sanayi%20B%C3%B6lgesi!5e0!3m2!1str!2str!4v1704067200000!5m2!1str!2str"
+              src={mapEmbedUrl}
               width="100%"
               height="100%"
               style={{ border: 0 }}
