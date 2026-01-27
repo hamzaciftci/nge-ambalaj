@@ -1,8 +1,10 @@
+import { Metadata } from "next";
 import { prisma } from "@/lib/prisma";
-export const dynamic = "force-dynamic";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { ArrowRight, ChevronRight } from "lucide-react";
+
+export const dynamic = "force-dynamic";
 
 async function getCategory(slug: string) {
   return prisma.mainCategory.findUnique({
@@ -19,6 +21,43 @@ async function getCategory(slug: string) {
       },
     },
   });
+}
+
+export async function generateMetadata({
+  params,
+}: {
+  params: { mainCategory: string };
+}): Promise<Metadata> {
+  const category = await getCategory(params.mainCategory);
+
+  if (!category) {
+    return {
+      title: "Kategori Bulunamadı | NGE Ambalaj",
+    };
+  }
+
+  return {
+    title: `${category.name} | NGE Ambalaj - Endüstriyel Ambalaj`,
+    description: `${category.name} kategorisindeki ürünlerimizi keşfedin. ${category.description.substring(0, 150)}`,
+    keywords: [
+      category.name,
+      "ambalaj",
+      "endüstriyel ambalaj",
+      "NGE Ambalaj",
+      ...category.subCategories.map((sub) => sub.name),
+    ],
+    openGraph: {
+      title: `${category.name} | NGE Ambalaj`,
+      description: category.description,
+      type: "website",
+      locale: "tr_TR",
+      siteName: "NGE Ambalaj",
+      images: category.image ? [{ url: category.image }] : undefined,
+    },
+    alternates: {
+      canonical: `https://nge-ambalaj.vercel.app/urunler/${category.slug}`,
+    },
+  };
 }
 
 export default async function MainCategoryPage({

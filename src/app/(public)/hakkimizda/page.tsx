@@ -1,4 +1,30 @@
+import { Metadata } from "next";
 import { CheckCircle2, Users, Award, Target, Clock, Truck, Shield, Headphones, Package, Globe } from "lucide-react";
+
+export const metadata: Metadata = {
+  title: "Hakkımızda | NGE Ambalaj - Endüstriyel Ambalaj Çözümleri",
+  description:
+    "NGE Ambalaj, 2012'den bu yana Adana Organize Sanayi Bölgesi'nde faaliyet gösteren endüstriyel ambalaj malzemeleri ticaret firmasıdır. 10+ yıllık tecrübe ile kaliteli ambalaj çözümleri sunuyoruz.",
+  keywords: [
+    "NGE Ambalaj hakkında",
+    "endüstriyel ambalaj firması",
+    "Adana ambalaj şirketi",
+    "ambalaj tedarikçisi",
+    "PET çember tedarikçisi",
+    "streç film tedarikçisi",
+  ],
+  openGraph: {
+    title: "Hakkımızda | NGE Ambalaj",
+    description:
+      "2012'den bu yana endüstriyel ambalaj sektöründe güvenilir çözüm ortağınız. 10+ yıllık tecrübe ile Adana OSB'de hizmetinizdeyiz.",
+    type: "website",
+    locale: "tr_TR",
+    siteName: "NGE Ambalaj",
+  },
+  alternates: {
+    canonical: "https://nge-ambalaj.vercel.app/hakkimizda",
+  },
+};
 
 export default function AboutPage() {
   const features = [

@@ -1,8 +1,10 @@
+import { Metadata } from "next";
 import { prisma } from "@/lib/prisma";
-export const dynamic = "force-dynamic";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { ChevronRight, Star } from "lucide-react";
+
+export const dynamic = "force-dynamic";
 
 async function getSubCategory(mainSlug: string, subSlug: string) {
   const mainCategory = await prisma.mainCategory.findUnique({
@@ -25,6 +27,44 @@ async function getSubCategory(mainSlug: string, subSlug: string) {
       },
     },
   });
+}
+
+export async function generateMetadata({
+  params,
+}: {
+  params: { mainCategory: string; subCategory: string };
+}): Promise<Metadata> {
+  const subCategory = await getSubCategory(params.mainCategory, params.subCategory);
+
+  if (!subCategory) {
+    return {
+      title: "Kategori Bulunamadı | NGE Ambalaj",
+    };
+  }
+
+  return {
+    title: `${subCategory.name} | ${subCategory.mainCategory.name} | NGE Ambalaj`,
+    description: `${subCategory.name} ürünlerini keşfedin. ${subCategory.description.substring(0, 150)}`,
+    keywords: [
+      subCategory.name,
+      subCategory.mainCategory.name,
+      "ambalaj",
+      "endüstriyel ambalaj",
+      "NGE Ambalaj",
+      ...subCategory.products.slice(0, 5).map((p) => p.name),
+    ],
+    openGraph: {
+      title: `${subCategory.name} | NGE Ambalaj`,
+      description: subCategory.description,
+      type: "website",
+      locale: "tr_TR",
+      siteName: "NGE Ambalaj",
+      images: subCategory.image ? [{ url: subCategory.image }] : undefined,
+    },
+    alternates: {
+      canonical: `https://nge-ambalaj.vercel.app/urunler/${subCategory.mainCategory.slug}/${subCategory.slug}`,
+    },
+  };
 }
 
 export default async function SubCategoryPage({
