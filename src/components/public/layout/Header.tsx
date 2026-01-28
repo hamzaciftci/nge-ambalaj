@@ -22,6 +22,16 @@ interface Category {
   }[];
 }
 
+interface MenuItem {
+  id: string;
+  title: string;
+  titleEn: string | null;
+  href: string | null;
+  target: string | null;
+  isProductsMenu: boolean;
+  children?: MenuItem[];
+}
+
 interface SiteSettings {
   phone?: string | null;
   email?: string | null;
@@ -30,35 +40,82 @@ interface SiteSettings {
 interface HeaderProps {
   categories: Category[];
   settings?: SiteSettings | null;
+  menuItems?: MenuItem[];
   locale?: string;
 }
 
-export default function Header({ categories, settings }: HeaderProps) {
+export default function Header({ categories, settings, menuItems }: HeaderProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [productsOpen, setProductsOpen] = useState(false);
   const pathname = usePathname();
   const { t, i18n } = useTranslation();
   const locale = i18n.language || "tr";
 
-  const navigation = [
-    { name: t("common.home"), href: "/" },
-    {
-      name: t("common.products"),
-      href: "/urunler",
-      submenu: categories.map((cat) => ({
-        name: locale === "en" ? cat.nameEn || cat.name : cat.name,
-        href: `/urunler/${cat.slug}`,
-        subItems: cat.subCategories.map((sub) => ({
-          name: locale === "en" ? sub.nameEn || sub.name : sub.name,
-          href: `/urunler/${cat.slug}/${sub.slug}`,
+  // Build navigation from menuItems if available, otherwise use defaults
+  const buildNavigation = () => {
+    // If we have menu items from DB, use them
+    if (menuItems && menuItems.length > 0) {
+      return menuItems.map((item) => {
+        // If this is a products menu, build submenu from categories
+        if (item.isProductsMenu) {
+          return {
+            name: locale === "en" && item.titleEn ? item.titleEn : item.title,
+            href: item.href || "/urunler",
+            submenu: categories.map((cat) => ({
+              name: locale === "en" ? cat.nameEn || cat.name : cat.name,
+              href: `/urunler/${cat.slug}`,
+              subItems: cat.subCategories.map((sub) => ({
+                name: locale === "en" ? sub.nameEn || sub.name : sub.name,
+                href: `/urunler/${cat.slug}/${sub.slug}`,
+              })),
+            })),
+          };
+        }
+
+        // Regular menu item with children
+        if (item.children && item.children.length > 0) {
+          return {
+            name: locale === "en" && item.titleEn ? item.titleEn : item.title,
+            href: item.href || "#",
+            submenu: item.children.map((child) => ({
+              name: locale === "en" && child.titleEn ? child.titleEn : child.title,
+              href: child.href || "#",
+            })),
+          };
+        }
+
+        // Simple menu item
+        return {
+          name: locale === "en" && item.titleEn ? item.titleEn : item.title,
+          href: item.href || "#",
+        };
+      });
+    }
+
+    // Default navigation (fallback when no menu items in DB)
+    return [
+      { name: t("common.home"), href: "/" },
+      {
+        name: t("common.products"),
+        href: "/urunler",
+        submenu: categories.map((cat) => ({
+          name: locale === "en" ? cat.nameEn || cat.name : cat.name,
+          href: `/urunler/${cat.slug}`,
+          subItems: cat.subCategories.map((sub) => ({
+            name: locale === "en" ? sub.nameEn || sub.name : sub.name,
+            href: `/urunler/${cat.slug}/${sub.slug}`,
+          })),
         })),
-      })),
-    },
-    { name: t("common.about"), href: "/hakkimizda" },
-    { name: t("common.contact"), href: "/iletisim" },
-  ];
+      },
+      { name: t("common.about"), href: "/hakkimizda" },
+      { name: t("common.contact"), href: "/iletisim" },
+    ];
+  };
+
+  const navigation = buildNavigation();
 
   const isActive = (href: string) => pathname === href;
+  const isActiveSubmenu = (href: string) => pathname.startsWith(href) && href !== "/";
 
   const phone = settings?.phone || "0532 643 5501";
   const email = settings?.email || "info@ngeltd.net";
@@ -108,13 +165,13 @@ export default function Header({ categories, settings }: HeaderProps) {
 
           {/* Desktop Navigation */}
           <div className="hidden lg:flex items-center gap-8">
-            {navigation.map((item) => (
+            {navigation.map((item: any) => (
               <div key={item.name} className="relative group">
                 {item.submenu ? (
                   <div className="relative">
                     <button
                       className={`flex items-center gap-1 font-medium transition-colors hover:text-primary ${
-                        pathname.startsWith("/urunler")
+                        isActiveSubmenu(item.href)
                           ? "text-primary"
                           : "text-foreground"
                       }`}
@@ -197,7 +254,7 @@ export default function Header({ categories, settings }: HeaderProps) {
         {mobileMenuOpen && (
           <div className="lg:hidden mt-4 pb-4 border-t border-border pt-4 animate-fade-in">
             <div className="flex flex-col gap-4">
-              {navigation.map((item) => (
+              {navigation.map((item: any) => (
                 <div key={item.name}>
                   {item.submenu ? (
                     <div>
@@ -214,7 +271,7 @@ export default function Header({ categories, settings }: HeaderProps) {
                       </button>
                       {productsOpen && (
                         <div className="mt-2 ml-4 flex flex-col gap-2">
-                          {item.submenu.map((subitem) => (
+                          {item.submenu.map((subitem: any) => (
                             <Link
                               key={subitem.href}
                               href={subitem.href}

@@ -12,12 +12,14 @@ import {
   Layers,
   FileText,
   Image,
+  Menu,
 } from "lucide-react";
 
 const navigation = [
   { name: "Panel", href: "/admin", icon: LayoutDashboard },
   { name: "Hero Slider", href: "/admin/hero-slides", icon: Image },
   { name: "Sayfalar", href: "/admin/pages", icon: FileText },
+  { name: "Menü Yönetimi", href: "/admin/menu", icon: Menu },
   { name: "Ana Kategoriler", href: "/admin/categories", icon: FolderTree },
   { name: "Alt Kategoriler", href: "/admin/subcategories", icon: Layers },
   { name: "Ürünler", href: "/admin/products", icon: Package },

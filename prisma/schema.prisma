@@ -170,3 +170,23 @@ model ContactSubmission {
   isRead    Boolean  @default(false)
   createdAt DateTime @default(now())
 }
+
+// Navigation menu management
+model MenuItem {
+  id          String     @id @default(cuid())
+  title       String     // Display title
+  titleEn     String?    // English title
+  href        String?    // Link URL (null for dropdown parents)
+  target      String?    // _blank, _self, etc.
+  icon        String?    // Icon name (optional)
+  order       Int        @default(0)
+  isActive    Boolean    @default(true)
+  parentId    String?    // For nested menus
+  parent      MenuItem?  @relation("MenuChildren", fields: [parentId], references: [id], onDelete: Cascade)
+  children    MenuItem[] @relation("MenuChildren")
+  menuType    String     @default("header") // header, footer, mobile
+  // Special flags
+  isProductsMenu Boolean @default(false) // Auto-populate with product categories
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+}
