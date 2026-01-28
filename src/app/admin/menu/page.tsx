@@ -35,7 +35,6 @@ import {
   Loader2,
   Menu,
   GripVertical,
-  ExternalLink,
   ChevronRight,
   Wand2,
 } from "lucide-react";
@@ -116,7 +115,7 @@ export default function MenuManagementPage() {
       target: "_self",
       order: menuItems.length,
       isActive: true,
-      parentId: "",
+      parentId: "none",
       menuType: "header",
       isProductsMenu: false,
     });
@@ -132,7 +131,7 @@ export default function MenuManagementPage() {
       target: item.target || "_self",
       order: item.order,
       isActive: item.isActive,
-      parentId: item.parentId || "",
+      parentId: item.parentId || "none",
       menuType: item.menuType,
       isProductsMenu: item.isProductsMenu,
     });
@@ -149,7 +148,7 @@ export default function MenuManagementPage() {
     try {
       const payload = {
         ...formData,
-        parentId: formData.parentId || null,
+        parentId: formData.parentId === "none" ? null : formData.parentId || null,
         href: formData.href || null,
       };
 
@@ -561,7 +560,7 @@ export default function MenuManagementPage() {
                     <SelectValue placeholder="Yok (Ana Menü)" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="">Yok (Ana Menü)</SelectItem>
+                    <SelectItem value="none">Yok (Ana Menü)</SelectItem>
                     {menuItems
                       .filter(
                         (item) =>
