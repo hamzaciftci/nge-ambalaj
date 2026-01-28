@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Switch } from "@/components/ui/switch";
@@ -285,8 +285,8 @@ export default function MenuManagementPage() {
                 </TableRow>
               ) : (
                 headerItems.map((item) => (
-                  <>
-                    <TableRow key={item.id}>
+                  <Fragment key={item.id}>
+                    <TableRow>
                       <TableCell>
                         <GripVertical className="h-4 w-4 text-muted-foreground" />
                       </TableCell>
@@ -382,7 +382,7 @@ export default function MenuManagementPage() {
                         </TableCell>
                       </TableRow>
                     ))}
-                  </>
+                  </Fragment>
                 ))
               )}
             </TableBody>
