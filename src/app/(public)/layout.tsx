@@ -5,7 +5,7 @@ import Footer from "@/components/public/layout/Footer";
 export const dynamic = "force-dynamic";
 
 async function getLayoutData() {
-  const [categories, rawSettings] = await Promise.all([
+  const [categories, rawSettings, menuItems] = await Promise.all([
     prisma.mainCategory.findMany({
       where: { isActive: true },
       include: {
@@ -25,6 +25,20 @@ async function getLayoutData() {
     prisma.siteSettings.findUnique({
       where: { id: "default" },
     }),
+    prisma.menuItem.findMany({
+      where: {
+        menuType: "header",
+        parentId: null,
+        isActive: true,
+      },
+      include: {
+        children: {
+          where: { isActive: true },
+          orderBy: { order: "asc" },
+        },
+      },
+      orderBy: { order: "asc" },
+    }),
   ]);
 
   // Transform settings to match component interface
@@ -35,7 +49,7 @@ async function getLayoutData() {
     socialLinks: rawSettings.socialLinks as { facebook?: string; instagram?: string; linkedin?: string } | null,
   } : null;
 
-  return { categories, settings };
+  return { categories, settings, menuItems };
 }
 
 export default async function PublicLayout({
@@ -43,11 +57,11 @@ export default async function PublicLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const { categories, settings } = await getLayoutData();
+  const { categories, settings, menuItems } = await getLayoutData();
 
   return (
     <div className="min-h-screen flex flex-col">
-      <Header categories={categories} settings={settings} />
+      <Header categories={categories} settings={settings} menuItems={menuItems} />
       <main className="flex-1">{children}</main>
       <Footer categories={categories} settings={settings} />
     </div>
