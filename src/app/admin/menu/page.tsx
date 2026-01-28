@@ -37,6 +37,7 @@ import {
   GripVertical,
   ExternalLink,
   ChevronRight,
+  Wand2,
 } from "lucide-react";
 import { toast } from "sonner";
 
@@ -72,6 +73,7 @@ export default function MenuManagementPage() {
   const [menuItems, setMenuItems] = useState<MenuItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
+  const [seeding, setSeeding] = useState(false);
   const [dialogOpen, setDialogOpen] = useState(false);
   const [editingItem, setEditingItem] = useState<MenuItem | null>(null);
   const [formData, setFormData] = useState<MenuItemFormData>({
@@ -191,6 +193,28 @@ export default function MenuManagementPage() {
     }
   };
 
+  const seedDefaultMenu = async () => {
+    setSeeding(true);
+    try {
+      const res = await fetch("/api/menu/seed", {
+        method: "POST",
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        throw new Error(data.error || "İşlem başarısız");
+      }
+
+      toast.success(data.message || "Varsayılan menü oluşturuldu");
+      fetchMenuItems();
+    } catch (error: any) {
+      toast.error(error.message || "Bir hata oluştu");
+    } finally {
+      setSeeding(false);
+    }
+  };
+
   // Group menu items by type and organize hierarchy
   const headerItems = menuItems.filter((item) => item.menuType === "header" && !item.parentId);
   const footerItems = menuItems.filter((item) => item.menuType === "footer" && !item.parentId);
@@ -216,10 +240,22 @@ export default function MenuManagementPage() {
             Site navigasyonunu ve menüleri yönetin
           </p>
         </div>
-        <Button onClick={openNewDialog}>
-          <Plus className="mr-2 h-4 w-4" />
-          Yeni Menü Öğesi
-        </Button>
+        <div className="flex items-center gap-2">
+          {menuItems.length === 0 && (
+            <Button variant="outline" onClick={seedDefaultMenu} disabled={seeding}>
+              {seeding ? (
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+              ) : (
+                <Wand2 className="mr-2 h-4 w-4" />
+              )}
+              Varsayılan Menüyü Ekle
+            </Button>
+          )}
+          <Button onClick={openNewDialog}>
+            <Plus className="mr-2 h-4 w-4" />
+            Yeni Menü Öğesi
+          </Button>
+        </div>
       </div>
 
       {/* Header Menu */}

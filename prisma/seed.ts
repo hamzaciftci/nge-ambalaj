@@ -159,6 +159,98 @@ Transparency, accuracy and continuity are our core values in our relationships w
     console.log("✅ Default hero slide created");
   }
 
+  // Create default menu items
+  const existingMenuItems = await prisma.menuItem.findMany();
+  if (existingMenuItems.length === 0) {
+    // Header menu items
+    const headerMenuItems = [
+      {
+        title: "Ana Sayfa",
+        titleEn: "Home",
+        href: "/",
+        order: 0,
+        menuType: "header",
+        isProductsMenu: false,
+      },
+      {
+        title: "Ürünler",
+        titleEn: "Products",
+        href: "/urunler",
+        order: 1,
+        menuType: "header",
+        isProductsMenu: true, // This will auto-populate with product categories
+      },
+      {
+        title: "Hakkımızda",
+        titleEn: "About Us",
+        href: "/hakkimizda",
+        order: 2,
+        menuType: "header",
+        isProductsMenu: false,
+      },
+      {
+        title: "İletişim",
+        titleEn: "Contact",
+        href: "/iletisim",
+        order: 3,
+        menuType: "header",
+        isProductsMenu: false,
+      },
+    ];
+
+    for (const menuItem of headerMenuItems) {
+      await prisma.menuItem.create({
+        data: menuItem,
+      });
+    }
+    console.log("✅ Default header menu items created");
+
+    // Footer menu items
+    const footerMenuItems = [
+      {
+        title: "Ana Sayfa",
+        titleEn: "Home",
+        href: "/",
+        order: 0,
+        menuType: "footer",
+        isProductsMenu: false,
+      },
+      {
+        title: "Ürünler",
+        titleEn: "Products",
+        href: "/urunler",
+        order: 1,
+        menuType: "footer",
+        isProductsMenu: false,
+      },
+      {
+        title: "Hakkımızda",
+        titleEn: "About Us",
+        href: "/hakkimizda",
+        order: 2,
+        menuType: "footer",
+        isProductsMenu: false,
+      },
+      {
+        title: "İletişim",
+        titleEn: "Contact",
+        href: "/iletisim",
+        order: 3,
+        menuType: "footer",
+        isProductsMenu: false,
+      },
+    ];
+
+    for (const menuItem of footerMenuItems) {
+      await prisma.menuItem.create({
+        data: menuItem,
+      });
+    }
+    console.log("✅ Default footer menu items created");
+  } else {
+    console.log("ℹ️ Menu items already exist");
+  }
+
   // Delete existing data to reseed
   await prisma.product.deleteMany();
   await prisma.subCategory.deleteMany();
