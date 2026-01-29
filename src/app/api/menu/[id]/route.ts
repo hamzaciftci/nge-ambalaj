@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { verifySession } from "@/lib/auth";
+import { logError } from "@/lib/logger";
 
 export const dynamic = "force-dynamic";
 
@@ -28,7 +29,7 @@ export async function GET(
 
     return NextResponse.json(menuItem);
   } catch (error) {
-    console.error("Error fetching menu item:", error);
+    logError("Error fetching menu item", error);
     return NextResponse.json(
       { error: "Menü öğesi yüklenirken hata oluştu" },
       { status: 500 }
@@ -79,7 +80,7 @@ export async function PUT(
 
     return NextResponse.json(menuItem);
   } catch (error) {
-    console.error("Error updating menu item:", error);
+    logError("Error updating menu item", error);
     return NextResponse.json(
       { error: "Menü öğesi güncellenirken hata oluştu" },
       { status: 500 }
@@ -104,7 +105,7 @@ export async function DELETE(
 
     return NextResponse.json({ success: true });
   } catch (error) {
-    console.error("Error deleting menu item:", error);
+    logError("Error deleting menu item", error);
     return NextResponse.json(
       { error: "Menü öğesi silinirken hata oluştu" },
       { status: 500 }

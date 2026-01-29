@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { verifySession } from "@/lib/auth";
+import { logError } from "@/lib/logger";
 
 export const dynamic = "force-dynamic";
 
@@ -25,7 +26,7 @@ export async function GET(request: Request) {
 
     return NextResponse.json(subCategories);
   } catch (error) {
-    console.error("Error fetching subcategories:", error);
+    logError("Error fetching subcategories", error);
     return NextResponse.json(
       { error: "Alt kategoriler yüklenirken bir hata oluştu" },
       { status: 500 }
@@ -82,7 +83,7 @@ export async function POST(request: Request) {
 
     return NextResponse.json(subCategory, { status: 201 });
   } catch (error) {
-    console.error("Error creating subcategory:", error);
+    logError("Error creating subcategory", error);
     return NextResponse.json(
       { error: "Alt kategori oluşturulurken bir hata oluştu" },
       { status: 500 }

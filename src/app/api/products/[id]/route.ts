@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { verifySession } from "@/lib/auth";
+import { logError } from "@/lib/logger";
 
 export const dynamic = "force-dynamic";
 
@@ -33,7 +34,7 @@ export async function GET(
 
     return NextResponse.json(product);
   } catch (error) {
-    console.error("Error fetching product:", error);
+    logError("Error fetching product", error);
     return NextResponse.json(
       { error: "Ürün yüklenirken bir hata oluştu" },
       { status: 500 }
@@ -126,7 +127,7 @@ export async function PUT(
 
     return NextResponse.json(product);
   } catch (error) {
-    console.error("Error updating product:", error);
+    logError("Error updating product", error);
     return NextResponse.json(
       { error: "Ürün güncellenirken bir hata oluştu" },
       { status: 500 }
@@ -151,7 +152,7 @@ export async function DELETE(
 
     return NextResponse.json({ success: true });
   } catch (error) {
-    console.error("Error deleting product:", error);
+    logError("Error deleting product", error);
     return NextResponse.json(
       { error: "Ürün silinirken bir hata oluştu" },
       { status: 500 }

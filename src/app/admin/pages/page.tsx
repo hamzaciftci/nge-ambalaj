@@ -35,8 +35,8 @@ export default function PagesListPage() {
           const data = await res.json();
           setPages(data);
         }
-      } catch (error) {
-        console.error("Error fetching pages:", error);
+      } catch {
+        // Error already handled by response status check
       } finally {
         setLoading(false);
       }

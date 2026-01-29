@@ -63,6 +63,7 @@ export default function EditHeroSlidePage({ params }: { params: { id: string } }
     },
   });
 
+  // Fetch slide data when id changes - form.reset and router.push are stable
   useEffect(() => {
     async function fetchSlide() {
       try {
@@ -86,15 +87,15 @@ export default function EditHeroSlidePage({ params }: { params: { id: string } }
           toast.error("Slider bulunamadı");
           router.push("/admin/hero-slides");
         }
-      } catch (error) {
-        console.error("Error fetching slide:", error);
+      } catch {
         toast.error("Slider yüklenirken hata oluştu");
       } finally {
         setFetching(false);
       }
     }
     fetchSlide();
-  }, [params.id, form, router]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [params.id]);
 
   const handleImageUpload = async (
     e: React.ChangeEvent<HTMLInputElement>,

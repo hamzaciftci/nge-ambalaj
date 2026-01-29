@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { verifySession } from "@/lib/auth";
+import { logError } from "@/lib/logger";
 
 export const dynamic = "force-dynamic";
 
@@ -25,7 +26,7 @@ export async function PUT(
 
     return NextResponse.json(submission);
   } catch (error) {
-    console.error("Error updating message:", error);
+    logError("Error updating message", error);
     return NextResponse.json(
       { error: "Mesaj güncellenirken bir hata oluştu" },
       { status: 500 }
@@ -50,7 +51,7 @@ export async function DELETE(
 
     return NextResponse.json({ success: true });
   } catch (error) {
-    console.error("Error deleting message:", error);
+    logError("Error deleting message", error);
     return NextResponse.json(
       { error: "Mesaj silinirken bir hata oluştu" },
       { status: 500 }

@@ -16,6 +16,7 @@ build
 .env.development.local
 .env.test.local
 .env.production.local
+.env.test
 
 # Logs
 logs
@@ -44,3 +45,10 @@ nul
 
 # Claude
 .claude/
+
+# Playwright
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
+*.trace.zip

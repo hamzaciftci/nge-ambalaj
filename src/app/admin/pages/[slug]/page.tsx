@@ -73,6 +73,7 @@ export default function EditPagePage({ params }: { params: { slug: string } }) {
     },
   });
 
+  // Fetch page data when slug changes - form.reset and router.push are stable
   useEffect(() => {
     async function fetchPage() {
       try {
@@ -103,15 +104,15 @@ export default function EditPagePage({ params }: { params: { slug: string } }) {
           toast.error("Sayfa bulunamadı");
           router.push("/admin/pages");
         }
-      } catch (error) {
-        console.error("Error fetching page:", error);
+      } catch {
         toast.error("Sayfa yüklenirken hata oluştu");
       } finally {
         setFetching(false);
       }
     }
     fetchPage();
-  }, [params.slug, form, router]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [params.slug]);
 
   const onSubmit = async (data: PageFormData) => {
     setLoading(true);

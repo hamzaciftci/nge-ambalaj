@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { verifySession } from "@/lib/auth";
+import { logError } from "@/lib/logger";
 
 export const dynamic = "force-dynamic";
 
@@ -24,7 +25,7 @@ export async function GET() {
 
     return NextResponse.json(menuItems);
   } catch (error) {
-    console.error("Error fetching menu items:", error);
+    logError("Error fetching menu items", error);
     return NextResponse.json(
       { error: "Menü öğeleri yüklenirken hata oluştu" },
       { status: 500 }

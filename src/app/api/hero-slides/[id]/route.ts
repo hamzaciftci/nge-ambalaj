@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { verifySession } from "@/lib/auth";
+import { logError } from "@/lib/logger";
 
 export const dynamic = "force-dynamic";
 
@@ -23,7 +24,7 @@ export async function GET(
 
     return NextResponse.json(slide);
   } catch (error) {
-    console.error("Error fetching hero slide:", error);
+    logError("Error fetching hero slide", error);
     return NextResponse.json(
       { error: "Slider yüklenirken bir hata oluştu" },
       { status: 500 }
@@ -68,7 +69,7 @@ export async function PUT(
 
     return NextResponse.json(slide);
   } catch (error) {
-    console.error("Error updating hero slide:", error);
+    logError("Error updating hero slide", error);
     return NextResponse.json(
       { error: "Slider güncellenirken bir hata oluştu" },
       { status: 500 }
@@ -93,7 +94,7 @@ export async function DELETE(
 
     return NextResponse.json({ success: true });
   } catch (error) {
-    console.error("Error deleting hero slide:", error);
+    logError("Error deleting hero slide", error);
     return NextResponse.json(
       { error: "Slider silinirken bir hata oluştu" },
       { status: 500 }

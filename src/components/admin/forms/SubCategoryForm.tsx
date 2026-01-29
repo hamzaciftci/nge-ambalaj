@@ -78,8 +78,8 @@ export default function SubCategoryForm({ initialData }: SubCategoryFormProps) {
           const data = await res.json();
           setMainCategories(data);
         }
-      } catch (error) {
-        console.error("Kategoriler yüklenemedi:", error);
+      } catch {
+        // Categories fetch failed - UI will handle empty state
       } finally {
         setLoadingCategories(false);
       }

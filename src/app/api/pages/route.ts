@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { verifySession } from "@/lib/auth";
+import { logError } from "@/lib/logger";
 
 export const dynamic = "force-dynamic";
 
@@ -12,7 +13,7 @@ export async function GET() {
     });
     return NextResponse.json(pages);
   } catch (error) {
-    console.error("Error fetching pages:", error);
+    logError("Error fetching pages", error);
     return NextResponse.json(
       { error: "Sayfalar yüklenirken bir hata oluştu" },
       { status: 500 }
@@ -69,7 +70,7 @@ export async function POST(request: Request) {
 
     return NextResponse.json(page, { status: 201 });
   } catch (error) {
-    console.error("Error creating page:", error);
+    logError("Error creating page", error);
     return NextResponse.json(
       { error: "Sayfa oluşturulurken bir hata oluştu" },
       { status: 500 }

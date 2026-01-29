@@ -74,8 +74,8 @@ export default function ProductDetailPage({
           const data = await res.json();
           setProduct(data);
         }
-      } catch (error) {
-        console.error("Error fetching product:", error);
+      } catch {
+        // Product fetch failed - UI will handle null state
       } finally {
         setLoading(false);
       }

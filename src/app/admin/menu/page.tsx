@@ -98,8 +98,7 @@ export default function MenuManagementPage() {
         const data = await res.json();
         setMenuItems(data);
       }
-    } catch (error) {
-      console.error("Error fetching menu items:", error);
+    } catch {
       toast.error("Menü öğeleri yüklenirken hata oluştu");
     } finally {
       setLoading(false);

@@ -1,5 +1,6 @@
 import { Metadata } from "next";
 import { prisma } from "@/lib/prisma";
+import { createSafeHtml } from "@/lib/sanitize";
 import { notFound } from "next/navigation";
 import { CheckCircle2, Users, Award, Target, Clock, Truck, Shield, Package, Globe } from "lucide-react";
 import Link from "next/link";
@@ -170,7 +171,7 @@ export default async function AboutPage() {
               </span>
               <h2
                 className="text-3xl md:text-4xl font-bold text-foreground mb-6"
-                dangerouslySetInnerHTML={{ __html: storyTitle }}
+                dangerouslySetInnerHTML={createSafeHtml(storyTitle)}
               />
               <div className="space-y-4 text-muted-foreground">
                 {paragraphs.length > 0 ? (
@@ -245,7 +246,7 @@ export default async function AboutPage() {
           <div className="mt-8 text-center">
             <p
               className="text-muted-foreground max-w-2xl mx-auto"
-              dangerouslySetInnerHTML={{ __html: valuesFooter }}
+              dangerouslySetInnerHTML={createSafeHtml(valuesFooter)}
             />
           </div>
         </div>

@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { verifySession } from "@/lib/auth";
+import { logError } from "@/lib/logger";
 
 export const dynamic = "force-dynamic";
 
@@ -33,7 +34,7 @@ export async function GET(request: Request) {
 
     return NextResponse.json(menuItems);
   } catch (error) {
-    console.error("Error fetching menu:", error);
+    logError("Error fetching menu", error);
     return NextResponse.json(
       { error: "Menü yüklenirken hata oluştu" },
       { status: 500 }
@@ -87,7 +88,7 @@ export async function POST(request: Request) {
 
     return NextResponse.json(menuItem);
   } catch (error) {
-    console.error("Error creating menu item:", error);
+    logError("Error creating menu item", error);
     return NextResponse.json(
       { error: "Menü öğesi oluşturulurken hata oluştu" },
       { status: 500 }

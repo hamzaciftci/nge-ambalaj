@@ -12,7 +12,8 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { LogOut, User, Menu } from "lucide-react";
-import { useState } from "react";
+import { useState, useCallback } from "react";
+import { toast } from "sonner";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
@@ -48,20 +49,42 @@ export default function AdminHeader({ user }: AdminHeaderProps) {
   const router = useRouter();
   const pathname = usePathname();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [loggingOut, setLoggingOut] = useState(false);
 
-  const handleLogout = async () => {
-    await fetch("/api/auth/logout", { method: "POST" });
-    router.push("/admin/login");
-    router.refresh();
-  };
+  const handleLogout = useCallback(async () => {
+    if (loggingOut) return;
+    setLoggingOut(true);
 
-  const initials = user.name
-    ? user.name
+    try {
+      const res = await fetch("/api/auth/logout", { method: "POST" });
+      if (!res.ok) {
+        throw new Error("Logout failed");
+      }
+      router.push("/admin/login");
+      router.refresh();
+    } catch {
+      toast.error("Çıkış yapılırken hata oluştu");
+      setLoggingOut(false);
+    }
+  }, [loggingOut, router]);
+
+  // Safe initials extraction with fallback
+  const getInitials = (): string => {
+    if (user.name) {
+      return user.name
         .split(" ")
-        .map((n) => n[0])
+        .map((n) => n[0] || "")
         .join("")
         .toUpperCase()
-    : user.email[0].toUpperCase();
+        .slice(0, 2) || "AD";
+    }
+    if (user.email && user.email.length > 0) {
+      return user.email[0].toUpperCase();
+    }
+    return "AD"; // Default fallback
+  };
+
+  const initials = getInitials();
 
   return (
     <>

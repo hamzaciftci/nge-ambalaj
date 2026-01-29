@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { verifySession } from "@/lib/auth";
+import { logError } from "@/lib/logger";
 
 export const dynamic = "force-dynamic";
 
@@ -33,7 +34,7 @@ export async function GET(
 
     return NextResponse.json(category);
   } catch (error) {
-    console.error("Error fetching category:", error);
+    logError("Error fetching category", error);
     return NextResponse.json(
       { error: "Kategori yüklenirken bir hata oluştu" },
       { status: 500 }
@@ -88,7 +89,7 @@ export async function PUT(
 
     return NextResponse.json(category);
   } catch (error) {
-    console.error("Error updating category:", error);
+    logError("Error updating category", error);
     return NextResponse.json(
       { error: "Kategori güncellenirken bir hata oluştu" },
       { status: 500 }
@@ -113,7 +114,7 @@ export async function DELETE(
 
     return NextResponse.json({ success: true });
   } catch (error) {
-    console.error("Error deleting category:", error);
+    logError("Error deleting category", error);
     return NextResponse.json(
       { error: "Kategori silinirken bir hata oluştu" },
       { status: 500 }

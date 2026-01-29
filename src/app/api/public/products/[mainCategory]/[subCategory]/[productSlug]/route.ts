@@ -1,5 +1,6 @@
 import { prisma } from "@/lib/prisma";
 import { NextResponse } from "next/server";
+import { logError } from "@/lib/logger";
 
 export async function GET(
   request: Request,
@@ -53,7 +54,7 @@ export async function GET(
 
     return NextResponse.json(product);
   } catch (error) {
-    console.error("Error fetching product:", error);
+    logError("Error fetching product", error);
     return NextResponse.json(
       { error: "Ürün yüklenirken bir hata oluştu" },
       { status: 500 }

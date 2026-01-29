@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -75,6 +75,7 @@ export default function SettingsPage() {
     },
   });
 
+  // Fetch settings only once on mount - form.reset is stable and doesn't need to be a dependency
   useEffect(() => {
     async function fetchSettings() {
       try {
@@ -108,14 +109,15 @@ export default function SettingsPage() {
             defaultSeoDescriptionEn: data.defaultSeoDescriptionEn || "",
           });
         }
-      } catch (error) {
-        console.error("Error fetching settings:", error);
+      } catch {
+        toast.error("Ayarlar yüklenirken hata oluştu");
       } finally {
         setFetching(false);
       }
     }
     fetchSettings();
-  }, [form]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const onSubmit = async (data: SettingsData) => {
     setLoading(true);
@@ -158,8 +160,7 @@ export default function SettingsPage() {
       try {
         responseData = responseText ? JSON.parse(responseText) : null;
       } catch {
-        console.error("API Response (not JSON):", responseText);
-        throw new Error(`Sunucu hatası (${res.status}): ${responseText.substring(0, 200)}`);
+        throw new Error(`Sunucu hatası (${res.status})`);
       }
 
       if (!res.ok) {
@@ -170,7 +171,6 @@ export default function SettingsPage() {
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : "Bir hata oluştu";
       toast.error(errorMessage);
-      console.error("Settings save error:", error);
     } finally {
       setLoading(false);
     }

@@ -40,8 +40,8 @@ export default function HeroSlidesPage() {
         const data = await res.json();
         setSlides(data);
       }
-    } catch (error) {
-      console.error("Error fetching slides:", error);
+    } catch {
+      // Error already handled by response status check
     } finally {
       setLoading(false);
     }

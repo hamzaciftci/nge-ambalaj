@@ -93,20 +93,19 @@ export async function POST() {
       },
     ];
 
-    // Insert all menu items
+    // Insert all menu items in a single query (fixes N+1 problem)
     const allMenuItems = [...headerMenuItems, ...footerMenuItems];
 
-    for (const item of allMenuItems) {
-      await prisma.menuItem.create({ data: item });
-    }
+    const result = await prisma.menuItem.createMany({
+      data: allMenuItems,
+    });
 
     return NextResponse.json({
       success: true,
       message: "Varsayılan menü öğeleri oluşturuldu",
-      count: allMenuItems.length
+      count: result.count
     });
-  } catch (error) {
-    console.error("Error seeding menu:", error);
+  } catch {
     return NextResponse.json(
       { error: "Menü oluşturulurken hata oluştu" },
       { status: 500 }

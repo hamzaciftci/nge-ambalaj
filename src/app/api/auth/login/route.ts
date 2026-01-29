@@ -1,32 +1,54 @@
 import { NextResponse } from "next/server";
+import { z } from "zod";
 import { prisma } from "@/lib/prisma";
 import { verifyPassword, createSession } from "@/lib/auth";
+import { loginRateLimiter, getClientIp, rateLimitResponse } from "@/lib/rate-limit";
 
 export const dynamic = "force-dynamic";
 
+// Input validation schema
+const loginSchema = z.object({
+  email: z.string().email("Geçerli bir e-posta adresi giriniz"),
+  password: z.string().min(1, "Şifre gereklidir"),
+});
+
 export async function POST(request: Request) {
   try {
-    const body = await request.json();
-    const { email, password } = body;
+    // Rate limiting check
+    const ip = getClientIp(request);
+    const rateLimitResult = loginRateLimiter.check(ip);
 
-    if (!email || !password) {
+    if (!rateLimitResult.success) {
+      return rateLimitResponse(rateLimitResult.resetTime);
+    }
+
+    // Parse and validate input
+    const body = await request.json();
+    const validation = loginSchema.safeParse(body);
+
+    if (!validation.success) {
       return NextResponse.json(
-        { error: "E-posta ve şifre gereklidir" },
+        { error: validation.error.errors[0].message },
         { status: 400 }
       );
     }
 
+    const { email, password } = validation.data;
+
+    // Find user
     const user = await prisma.user.findUnique({
-      where: { email },
+      where: { email: email.toLowerCase().trim() },
     });
 
     if (!user) {
+      // Use same error message to prevent user enumeration
       return NextResponse.json(
         { error: "Geçersiz e-posta veya şifre" },
         { status: 401 }
       );
     }
 
+    // Verify password
     const isValid = await verifyPassword(password, user.passwordHash);
 
     if (!isValid) {
@@ -36,6 +58,7 @@ export async function POST(request: Request) {
       );
     }
 
+    // Create session
     await createSession(user.id);
 
     return NextResponse.json({
@@ -48,7 +71,7 @@ export async function POST(request: Request) {
       },
     });
   } catch (error) {
-    console.error("Login error:", error);
+    // Don't expose error details to client
     return NextResponse.json(
       { error: "Giriş yapılırken bir hata oluştu" },
       { status: 500 }

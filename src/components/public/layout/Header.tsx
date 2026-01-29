@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
 
+// Type definitions
 interface Category {
   id: string;
   name: string;
@@ -41,18 +42,35 @@ interface HeaderProps {
   categories: Category[];
   settings?: SiteSettings | null;
   menuItems?: MenuItem[];
-  locale?: string;
+}
+
+// Navigation item types
+interface SubSubItem {
+  name: string;
+  href: string;
+}
+
+interface SubItem {
+  name: string;
+  href: string;
+  subItems?: SubSubItem[];
+}
+
+interface NavItem {
+  name: string;
+  href: string;
+  submenu?: SubItem[];
 }
 
 export default function Header({ categories, settings, menuItems }: HeaderProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [productsOpen, setProductsOpen] = useState(false);
+  const [openSubmenuIndex, setOpenSubmenuIndex] = useState<number | null>(null);
   const pathname = usePathname();
   const { t, i18n } = useTranslation();
   const locale = i18n.language || "tr";
 
   // Build navigation from menuItems if available, otherwise use defaults
-  const buildNavigation = () => {
+  const buildNavigation = (): NavItem[] => {
     // If we have menu items from DB, use them
     if (menuItems && menuItems.length > 0) {
       return menuItems.map((item) => {
@@ -117,6 +135,10 @@ export default function Header({ categories, settings, menuItems }: HeaderProps)
   const isActive = (href: string) => pathname === href;
   const isActiveSubmenu = (href: string) => pathname.startsWith(href) && href !== "/";
 
+  const toggleMobileSubmenu = (index: number) => {
+    setOpenSubmenuIndex(openSubmenuIndex === index ? null : index);
+  };
+
   const phone = settings?.phone || "0532 643 5501";
   const email = settings?.email || "info@ngeltd.net";
 
@@ -165,7 +187,7 @@ export default function Header({ categories, settings, menuItems }: HeaderProps)
 
           {/* Desktop Navigation */}
           <div className="hidden lg:flex items-center gap-8">
-            {navigation.map((item: any) => (
+            {navigation.map((item: NavItem) => (
               <div key={item.name} className="relative group">
                 {item.submenu ? (
                   <div className="relative">
@@ -181,7 +203,7 @@ export default function Header({ categories, settings, menuItems }: HeaderProps)
                     </button>
                     <div className="absolute top-full left-0 pt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
                       <div className="bg-card rounded-lg border border-border shadow-industrial-lg py-2 min-w-[280px] max-h-[600px] overflow-y-auto">
-                        {item.submenu.map((subitem: any) => (
+                        {item.submenu.map((subitem: SubItem) => (
                           <div key={subitem.href} className="relative group/sub">
                             <Link
                               href={subitem.href}
@@ -195,7 +217,7 @@ export default function Header({ categories, settings, menuItems }: HeaderProps)
                             </Link>
                             {subitem.subItems && subitem.subItems.length > 0 && (
                               <div className="pl-4 border-l-2 border-border ml-4">
-                                {subitem.subItems.map((subSubItem: any) => (
+                                {subitem.subItems.map((subSubItem: SubSubItem) => (
                                   <Link
                                     key={subSubItem.href}
                                     href={subSubItem.href}
@@ -254,24 +276,24 @@ export default function Header({ categories, settings, menuItems }: HeaderProps)
         {mobileMenuOpen && (
           <div className="lg:hidden mt-4 pb-4 border-t border-border pt-4 animate-fade-in">
             <div className="flex flex-col gap-4">
-              {navigation.map((item: any) => (
+              {navigation.map((item: NavItem, index: number) => (
                 <div key={item.name}>
                   {item.submenu ? (
                     <div>
                       <button
-                        onClick={() => setProductsOpen(!productsOpen)}
+                        onClick={() => toggleMobileSubmenu(index)}
                         className="flex items-center justify-between w-full font-medium text-foreground"
                       >
                         {item.name}
                         <ChevronDown
                           className={`h-4 w-4 transition-transform ${
-                            productsOpen ? "rotate-180" : ""
+                            openSubmenuIndex === index ? "rotate-180" : ""
                           }`}
                         />
                       </button>
-                      {productsOpen && (
+                      {openSubmenuIndex === index && (
                         <div className="mt-2 ml-4 flex flex-col gap-2">
-                          {item.submenu.map((subitem: any) => (
+                          {item.submenu.map((subitem: SubItem) => (
                             <Link
                               key={subitem.href}
                               href={subitem.href}
