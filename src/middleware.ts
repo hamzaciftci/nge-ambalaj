@@ -17,7 +17,7 @@ async function validateSession(sessionToken: string): Promise<boolean> {
 
   try {
     // Direct database query using Neon serverless (Edge-compatible)
-    const sql = neon(process.env.POSTGRES_URL_NON_POOLING!);
+    const sql = neon(process.env.STORAGE_DATABASE_URL_UNPOOLED!);
 
     const result = await sql`
       SELECT id, expires FROM "Session"
