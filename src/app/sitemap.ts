@@ -1,7 +1,10 @@
 import { MetadataRoute } from "next";
 import { prisma } from "@/lib/prisma";
 
-const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://nge-ambalaj.vercel.app";
+// Generate sitemap dynamically at runtime (not during build)
+export const dynamic = "force-dynamic";
+
+const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://ngeltd.net";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // Static pages
