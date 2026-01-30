@@ -1,5 +1,4 @@
 import { prisma } from "@/lib/prisma";
-import { notFound } from "next/navigation";
 import { Phone, Mail, MapPin, Clock } from "lucide-react";
 import ContactForm from "@/components/public/ContactForm";
 
@@ -41,11 +40,9 @@ async function getPageData() {
 export default async function ContactPage() {
   const { page, settings } = await getPageData();
 
-  if (!page || !page.isActive) {
-    notFound();
-  }
-
-  const content = (page.content || {}) as PageContent;
+  // Show default content if page doesn't exist or is inactive
+  // This allows the page to work without CMS setup
+  const content = (page?.isActive ? page.content : {}) as PageContent || {};
 
   // Default values with database override
   const heroTitle = content.heroTitle || "İletişim";

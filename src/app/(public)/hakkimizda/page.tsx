@@ -1,7 +1,6 @@
 import { Metadata } from "next";
 import { prisma } from "@/lib/prisma";
 import { createSafeHtml } from "@/lib/sanitize";
-import { notFound } from "next/navigation";
 import { CheckCircle2, Users, Award, Target, Clock, Truck, Shield, Package, Globe } from "lucide-react";
 import Link from "next/link";
 
@@ -68,11 +67,9 @@ export async function generateMetadata(): Promise<Metadata> {
 export default async function AboutPage() {
   const page = await getPageData();
 
-  if (!page || !page.isActive) {
-    notFound();
-  }
-
-  const content = (page.content || {}) as PageContent;
+  // Show default content if page doesn't exist or is inactive
+  // This allows the page to work without CMS setup
+  const content = (page?.isActive ? page.content : {}) as PageContent || {};
 
   // Default values with database override
   const heroTitle = content.heroTitle || "Hakkımızda";
