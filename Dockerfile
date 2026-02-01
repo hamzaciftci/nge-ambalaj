@@ -6,7 +6,9 @@ WORKDIR /app
 COPY package.json package-lock.json ./
 COPY prisma ./prisma/
 
+# Install dependencies including sharp for image optimization
 RUN npm ci
+RUN npm install sharp
 
 # Stage 2: Build
 FROM node:20-slim AS builder
@@ -41,6 +43,10 @@ COPY --from=builder /app/.next/standalone ./
 COPY --from=builder /app/.next/static ./.next/static
 COPY --from=builder /app/prisma ./prisma
 COPY --from=builder /app/node_modules/.prisma ./node_modules/.prisma
+COPY --from=deps /app/node_modules/sharp ./node_modules/sharp
+
+# Create cache directory with proper permissions
+RUN mkdir -p .next/cache && chown -R nextjs:nodejs .next/cache
 
 USER nextjs
 
