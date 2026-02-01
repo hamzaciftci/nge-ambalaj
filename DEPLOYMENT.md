@@ -139,17 +139,79 @@ systemctl reload nginx
 
 ---
 
-## Adım 6: SSL Sertifikası (Let's Encrypt)
+## Adım 6: SSL Sertifikası (Cloudflare Kullanarak)
+
+Cloudflare kullandığımız için SSL işlemlerini Cloudflare üzerinden yürüteceğiz. Bu yöntem ("Full (Strict)" veya "Full") en güvenli ve stabil yöntemdir.
+
+### 1. Cloudflare Ayarları
+1. Cloudflare panelinde **DNS** bölümüne gidin.
+2. `sh.com.tr` ve `www` kayıtlarının **"Proxied"** (Turuncu Bulut) olduğundan emin olun.
+3. **SSL/TLS** menüsüne gidin ve modun **"Full"** veya **"Full (Strict)"** olduğundan emin olun.
+
+### 2. Origin CA Sertifikası Oluşturma
+Bu sertifika Cloudflare ile sunucumuz arasındaki trafiği şifreler.
+
+1. Cloudflare panelinde **SSL/TLS > Origin Server** menüsüne gidin.
+2. **"Create Certificate"** butonuna tıklayın.
+3. Varsayılan ayarları (RSA 2048, Hostnames) bırakıp **Create** deyin.
+4. Çıkan ekrandaki **Origin Certificate** ve **Private Key** içeriklerini kopyalayın.
+
+### 3. Sertifikaları Sunucuya Yükleme
+Sunucunuzda aşağıdaki dosyaları oluşturun ve kopyaladığınız içerikleri yapıştırın:
 
 ```bash
-# Certbot kurulumu
-apt install certbot python3-certbot-nginx -y
+# Klasörü oluştur
+mkdir -p /etc/nginx/ssl
 
-# SSL sertifikası al
-certbot --nginx -d sh.com.tr -d www.sh.com.tr
+# Sertifika (Origin Certificate)
+nano /etc/nginx/ssl/cert.pem
+# (İçeriği yapıştırıp CTRL+O, Enter, CTRL+X ile kaydedin)
 
-# Otomatik yenileme (cron job otomatik eklenir)
-certbot renew --dry-run
+# Anahtar (Private Key)
+nano /etc/nginx/ssl/key.pem
+# (İçeriği yapıştırıp CTRL+O, Enter, CTRL+X ile kaydedin)
+```
+
+### 4. Nginx Konfigürasyonunu Güncelleme
+Nginx'in 443 portunu dinlemesi ve bu sertifikaları kullanması gerekiyor.
+
+"/etc/nginx/sites-available/nge-ambalaj" dosyasını şu şekilde güncelleyin:
+
+```nginx
+server {
+    listen 80;
+    server_name sh.com.tr www.sh.com.tr;
+    # HTTP'den HTTPS'e yönlendir
+    return 301 https://$host$request_uri;
+}
+
+server {
+    listen 443 ssl http2;
+    server_name sh.com.tr www.sh.com.tr;
+
+    ssl_certificate /etc/nginx/ssl/cert.pem;
+    ssl_certificate_key /etc/nginx/ssl/key.pem;
+    
+    # Cloudflare IP'leri için
+    # (Opsiyonel ama önerilir: Cloudflare IP'lerini gerçek IP olarak görmek isterseniz yapılandırılmalı)
+
+    location / {
+        proxy_pass http://127.0.0.1:3000;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection 'upgrade';
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+}
+```
+
+### 5. Nginx'i Yeniden Başlatma
+```bash
+nginx -t
+systemctl reload nginx
 ```
 
 ---
