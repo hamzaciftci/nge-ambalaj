@@ -1,6 +1,6 @@
 # NGE Ambalaj - VPS Deployment Kılavuzu
 
-Bu kılavuz, projeyi sh.com.tr veya herhangi bir VPS/dedicated sunucuda deploy etmek için hazırlanmıştır.
+Bu kılavuz, projeyi ngeltd.net veya herhangi bir VPS/dedicated sunucuda deploy etmek için hazırlanmıştır.
 
 ## Gereksinimler
 
@@ -76,7 +76,7 @@ STORAGE_POSTGRES_PRISMA_URL="postgresql://neondb_owner:npg_7ylWhZbJ9AxB@ep-twili
 STORAGE_DATABASE_URL_UNPOOLED="postgresql://neondb_owner:npg_7ylWhZbJ9AxB@ep-twilight-block-agsh91n3.c-2.eu-central-1.aws.neon.tech/neondb?sslmode=require"
 
 # Site URL (kendi domain'iniz)
-NEXT_PUBLIC_SITE_URL="https://sh.com.tr"
+NEXT_PUBLIC_SITE_URL="https://ngeltd.net"
 
 # Blob Storage (opsiyonel - Vercel Blob kullanmaya devam edebilirsiniz)
 BLOB_READ_WRITE_TOKEN="vercel_blob_rw_xxxxx"
@@ -109,7 +109,7 @@ docker compose logs -f
 cat > /etc/nginx/sites-available/nge-ambalaj << 'EOF'
 server {
     listen 80;
-    server_name sh.com.tr www.sh.com.tr;
+    server_name ngeltd.net www.ngeltd.net;
 
     location / {
         proxy_pass http://127.0.0.1:3000;
@@ -145,7 +145,7 @@ Cloudflare kullandığımız için SSL işlemlerini Cloudflare üzerinden yürü
 
 ### 1. Cloudflare Ayarları
 1. Cloudflare panelinde **DNS** bölümüne gidin.
-2. `sh.com.tr` ve `www` kayıtlarının **"Proxied"** (Turuncu Bulut) olduğundan emin olun.
+2. `ngeltd.net` ve `www` kayıtlarının **"Proxied"** (Turuncu Bulut) olduğundan emin olun.
 3. **SSL/TLS** menüsüne gidin ve modun **"Full"** veya **"Full (Strict)"** olduğundan emin olun.
 
 ### 2. Origin CA Sertifikası Oluşturma
@@ -180,14 +180,14 @@ Nginx'in 443 portunu dinlemesi ve bu sertifikaları kullanması gerekiyor.
 ```nginx
 server {
     listen 80;
-    server_name sh.com.tr www.sh.com.tr;
+    server_name ngeltd.net www.ngeltd.net;
     # HTTP'den HTTPS'e yönlendir
     return 301 https://$host$request_uri;
 }
 
 server {
     listen 443 ssl http2;
-    server_name sh.com.tr www.sh.com.tr;
+    server_name ngeltd.net www.ngeltd.net;
 
     ssl_certificate /etc/nginx/ssl/cert.pem;
     ssl_certificate_key /etc/nginx/ssl/key.pem;
