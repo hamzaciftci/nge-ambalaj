@@ -1,21 +1,9 @@
-import { prisma } from "@/lib/prisma";
+"use client";
+
+import { useState, useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import { Phone, Mail, MapPin, Clock } from "lucide-react";
 import ContactForm from "@/components/public/ContactForm";
-
-export const dynamic = "force-dynamic";
-
-interface PageContent {
-  heroTitle?: string;
-  heroSubtitle?: string;
-  contactInfoTitle?: string;
-  contactInfoDescription?: string;
-  mapTitle?: string;
-  mapSubtitle?: string;
-  formTitle?: string;
-  successTitle?: string;
-  successMessage?: string;
-  newMessageButton?: string;
-}
 
 interface ContactInfo {
   icon: typeof Phone;
@@ -24,39 +12,46 @@ interface ContactInfo {
   href: string | null;
 }
 
-async function getPageData() {
-  const [page, settings] = await Promise.all([
-    prisma.page.findUnique({
-      where: { slug: "iletisim" },
-    }),
-    prisma.siteSettings.findUnique({
-      where: { id: "default" },
-    }),
-  ]);
-
-  return { page, settings };
+interface Settings {
+  phone?: string;
+  phone2?: string;
+  email?: string;
+  address?: string;
+  workingHours?: string;
+  mapEmbedUrl?: string;
 }
 
-export default async function ContactPage() {
-  const { page, settings } = await getPageData();
+export default function ContactPage() {
+  const { t } = useTranslation();
+  const [settings, setSettings] = useState<Settings>({});
+  const [loading, setLoading] = useState(true);
+  const [mounted, setMounted] = useState(false);
 
-  // Show default content if page doesn't exist or is inactive
-  // This allows the page to work without CMS setup
-  const content = (page?.isActive ? page.content : {}) as PageContent || {};
+  useEffect(() => {
+    setMounted(true);
+    async function fetchSettings() {
+      try {
+        const response = await fetch("/api/settings");
+        const data = await response.json();
+        setSettings(data || {});
+      } catch (error) {
+        console.error("Error fetching settings:", error);
+      } finally {
+        setLoading(false);
+      }
+    }
+    fetchSettings();
+  }, []);
 
-  // Default values with database override
-  const heroTitle = content.heroTitle || "İletişim";
-  const heroSubtitle = content.heroSubtitle || "Sorularınız ve talepleriniz için bizimle iletişime geçin. Uzman ekibimiz en kısa sürede size dönüş yapacaktır.";
-  const contactInfoTitle = content.contactInfoTitle || "İletişim Bilgileri";
-  const contactInfoDescription = content.contactInfoDescription || "Bizimle aşağıdaki kanallardan iletişime geçebilir veya formu doldurarak mesaj gönderebilirsiniz.";
-  const mapTitle = content.mapTitle || "Konumumuz";
-  const mapSubtitle = content.mapSubtitle || "Adana Organize Sanayi Bölgesi'nde hizmetinizdeyiz.";
+  if (!mounted || loading) {
+    return null;
+  }
 
   // Get contact info from settings or use defaults
   const contactInfo: ContactInfo[] = [
     {
       icon: Phone,
-      title: "Telefon",
+      title: t("contact.info.phone"),
       value: settings?.phone || "0532 643 5501",
       href: `tel:${settings?.phone?.replace(/\s/g, "") || "+905326435501"}`,
     },
@@ -66,7 +61,7 @@ export default async function ContactPage() {
   if (settings?.phone2) {
     contactInfo.push({
       icon: Phone,
-      title: "Telefon 2",
+      title: t("contact.info.phone") + " 2",
       value: settings.phone2,
       href: `tel:${settings.phone2.replace(/\s/g, "")}`,
     });
@@ -75,19 +70,19 @@ export default async function ContactPage() {
   contactInfo.push(
     {
       icon: Mail,
-      title: "E-posta",
+      title: t("contact.info.email"),
       value: settings?.email || "info@ngeltd.net",
       href: `mailto:${settings?.email || "info@ngeltd.net"}`,
     },
     {
       icon: MapPin,
-      title: "Adres",
+      title: t("contact.info.address"),
       value: settings?.address || "Adana Organize Sanayi Bölgesi T.Özal Blv. No:6 Z:14 Sarıçam / ADANA",
       href: "https://maps.google.com/?q=Adana+Organize+Sanayi+Bölgesi",
     },
     {
       icon: Clock,
-      title: "Çalışma Saatleri",
+      title: t("contact.info.workingHours"),
       value: settings?.workingHours || "Pazartesi - Cumartesi: 08:00 - 18:00",
       href: null,
     }
@@ -100,9 +95,9 @@ export default async function ContactPage() {
       {/* Hero Section */}
       <section className="bg-background border-b border-border py-16">
         <div className="container-custom">
-          <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-4">{heroTitle}</h1>
+          <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-4">{t("contact.title")}</h1>
           <p className="text-muted-foreground text-lg max-w-2xl">
-            {heroSubtitle}
+            {t("contact.subtitle")}
           </p>
         </div>
       </section>
@@ -115,10 +110,10 @@ export default async function ContactPage() {
             <div className="lg:col-span-1 space-y-6">
               <div>
                 <h2 className="text-2xl font-bold text-foreground mb-4">
-                  {contactInfoTitle}
+                  {t("contact.title")}
                 </h2>
                 <p className="text-muted-foreground">
-                  {contactInfoDescription}
+                  {t("contact.subtitle")}
                 </p>
               </div>
 
@@ -153,12 +148,7 @@ export default async function ContactPage() {
 
             {/* Contact Form */}
             <div className="lg:col-span-2">
-              <ContactForm
-                formTitle={content.formTitle}
-                successTitle={content.successTitle}
-                successMessage={content.successMessage}
-                newMessageButton={content.newMessageButton}
-              />
+              <ContactForm />
             </div>
           </div>
         </div>
@@ -168,9 +158,9 @@ export default async function ContactPage() {
       <section className="py-16 bg-secondary">
         <div className="container-custom">
           <div className="text-center mb-8">
-            <h2 className="text-2xl font-bold text-foreground mb-2">{mapTitle}</h2>
+            <h2 className="text-2xl font-bold text-foreground mb-2">{t("contact.info.address")}</h2>
             <p className="text-muted-foreground">
-              {mapSubtitle}
+              Adana Organize Sanayi Bölgesi'nde hizmetinizdeyiz.
             </p>
           </div>
           <div className="aspect-[21/9] rounded-2xl overflow-hidden border border-border">

@@ -1,148 +1,81 @@
-import { Metadata } from "next";
-import { prisma } from "@/lib/prisma";
+"use client";
+
+import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { createSafeHtml } from "@/lib/sanitize";
 import { CheckCircle2, Users, Award, Target, Clock, Truck, Shield, Package, Globe } from "lucide-react";
 import Link from "next/link";
 
-export const dynamic = "force-dynamic";
+export default function AboutPage() {
+  const { t } = useTranslation();
+  const [mounted, setMounted] = useState(false);
 
-interface PageContent {
-  heroTitle?: string;
-  heroSubtitle?: string;
-  mainContent?: string;
-  storyBadge?: string;
-  storyTitle?: string;
-  storyImage?: string;
-  yearsExperience?: string;
-  yearsLabel?: string;
-  valuesBadge?: string;
-  valuesTitle?: string;
-  highlights?: string[];
-  valuesFooter?: string;
-  mission?: string;
-  vision?: string;
-  whyUsBadge?: string;
-  whyUsTitle?: string;
-  ctaTitle?: string;
-  ctaSubtitle?: string;
-  ctaButtonText?: string;
-}
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
-async function getPageData() {
-  return prisma.page.findUnique({
-    where: { slug: "hakkimizda" },
-  });
-}
-
-export async function generateMetadata(): Promise<Metadata> {
-  const page = await getPageData();
-
-  if (!page) {
-    return {
-      title: "Hakkımızda | NGE Ambalaj",
-    };
+  if (!mounted) {
+    return null;
   }
 
-  return {
-    title: page.seoTitle || `${page.title} | NGE Ambalaj`,
-    description: page.seoDescription || "NGE Ambalaj hakkında bilgi edinin.",
-    keywords: page.seoKeywords?.split(",").map((k) => k.trim()) || [
-      "NGE Ambalaj hakkında",
-      "endüstriyel ambalaj firması",
-      "Adana ambalaj şirketi",
-    ],
-    openGraph: {
-      title: page.seoTitle || page.title,
-      description: page.seoDescription || undefined,
-      type: "website",
-      locale: "tr_TR",
-      siteName: "NGE Ambalaj",
-    },
-    alternates: {
-      canonical: "https://nge-ambalaj.vercel.app/hakkimizda",
-    },
-  };
-}
+  const storyImage = "https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?w=800";
 
-export default async function AboutPage() {
-  const page = await getPageData();
-
-  // Show default content if page doesn't exist or is inactive
-  // This allows the page to work without CMS setup
-  const content = (page?.isActive ? page.content : {}) as PageContent || {};
-
-  // Default values with database override
-  const heroTitle = content.heroTitle || "Hakkımızda";
-  const heroSubtitle = content.heroSubtitle || "2012'den bu yana endüstriyel ambalaj sektöründe güvenilir çözüm ortağınız.";
-  const mainContent = content.mainContent || "";
-  const storyBadge = content.storyBadge || "Hikayemiz";
-  const storyTitle = content.storyTitle || "Kalite ve Güven ile Örülmüş <span class=\"text-primary\">10+ Yıl</span>";
-  const storyImage = content.storyImage || "https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?w=800";
-  const yearsExperience = content.yearsExperience || "10+";
-  const yearsLabel = content.yearsLabel || "Yıllık Tecrübe";
-  const valuesBadge = content.valuesBadge || "Değerlerimiz";
-  const valuesTitle = content.valuesTitle || "NGE Ambalaj Olarak Biz";
-  const highlights = content.highlights || [
-    "İş ortaklarımızın tedarik zincirini güçlendiren kaliteli ambalaj malzemeleri sağlıyoruz",
-    "Her ölçekten işletmeye uygun ürün portföyüyle hızlı ve etkili ticari çözümler sunuyoruz",
-    "İthalat ve ihracat süreçlerinde güvenilir lojistik desteği sağlıyoruz",
-    "Müşteri memnuniyetini her zaman önceliğimiz olarak kabul ediyoruz",
+  const paragraphs = [
+    t("aboutPage.mainContentParagraph1"),
+    t("aboutPage.mainContentParagraph2"),
+    t("aboutPage.mainContentParagraph3"),
   ];
-  const valuesFooter = content.valuesFooter || "Müşterilerimizle kurduğumuz ilişkilerde <strong class=\"text-foreground\">şeffaflık</strong>, <strong class=\"text-foreground\">doğruluk</strong> ve <strong class=\"text-foreground\">süreklilik</strong> temel değerlerimizdir. Her yeni siparişte beklentileri karşılamanın ötesine geçmek için çalışırız.";
-  const mission = content.mission || "İşletmelerin lojistik ve sevkiyat süreçlerini optimize eden endüstriyel streç filmler ve PET çemberler başta olmak üzere kaliteli ambalaj çözümleri sunmak.";
-  const vision = content.vision || "Türkiye'nin güvenilir endüstriyel ambalaj tedarikçisi olarak, yüksek kalite ve sürdürülebilir iş ortaklığı ilkeleriyle sektöre yön vermek.";
-  const whyUsBadge = content.whyUsBadge || "Neden Biz?";
-  const whyUsTitle = content.whyUsTitle || "Bizi Tercih Etmeniz İçin Nedenler";
-  const ctaTitle = content.ctaTitle || "İşletmenizin Ambalaj İhtiyaçları İçin";
-  const ctaSubtitle = content.ctaSubtitle || "NGE Ambalaj ile işletmenizin ambalaj ihtiyaçlarını profesyonel ve güvenilir bir iş ortağıyla karşılayın.";
-  const ctaButtonText = content.ctaButtonText || "Bizimle İletişime Geçin";
 
-  // Parse mainContent paragraphs
-  const paragraphs = mainContent.split("\n\n").filter((p) => p.trim());
+  const highlights = [
+    t("aboutPage.highlights.highlight1"),
+    t("aboutPage.highlights.highlight2"),
+    t("aboutPage.highlights.highlight3"),
+    t("aboutPage.highlights.highlight4"),
+  ];
 
   const features = [
     {
       icon: Clock,
-      title: "10+ Yıllık Tecrübe",
-      description: "2012'den bu yana sektörde edindiğimiz deneyim ile yanınızdayız.",
+      title: t("aboutPage.features.yearsExperience.title"),
+      description: t("aboutPage.features.yearsExperience.description"),
     },
     {
       icon: Users,
-      title: "Güvenilir İş Ortağı",
-      description: "Müşterilerimizle kurduğumuz ilişkilerde şeffaflık ve süreklilik.",
+      title: t("aboutPage.features.reliablePartner.title"),
+      description: t("aboutPage.features.reliablePartner.description"),
     },
     {
       icon: Truck,
-      title: "Hızlı Teslimat",
-      description: "Siparişleriniz en kısa sürede kapınıza ulaştırılır.",
+      title: t("aboutPage.features.fastDelivery.title"),
+      description: t("aboutPage.features.fastDelivery.description"),
     },
     {
       icon: Shield,
-      title: "Kalite Garantisi",
-      description: "Tüm ürünlerimiz ulusal ve uluslararası standartlara uygun.",
+      title: t("aboutPage.features.qualityGuarantee.title"),
+      description: t("aboutPage.features.qualityGuarantee.description"),
     },
     {
       icon: Globe,
-      title: "İthalat & İhracat",
-      description: "Güvenilir lojistik desteği ile ithalat ve ihracat hizmetleri.",
+      title: t("aboutPage.features.importExport.title"),
+      description: t("aboutPage.features.importExport.description"),
     },
     {
       icon: Package,
-      title: "Geniş Ürün Portföyü",
-      description: "Her ölçekten işletmeye uygun ambalaj çözümleri.",
+      title: t("aboutPage.features.wideRange.title"),
+      description: t("aboutPage.features.wideRange.description"),
     },
   ];
 
   const values = [
     {
       icon: Target,
-      title: "Misyonumuz",
-      description: mission,
+      title: t("about.mission"),
+      description: t("aboutPage.mission"),
     },
     {
       icon: Award,
-      title: "Vizyonumuz",
-      description: vision,
+      title: t("about.vision"),
+      description: t("aboutPage.vision"),
     },
   ];
 
@@ -151,9 +84,9 @@ export default async function AboutPage() {
       {/* Hero Section */}
       <section className="bg-background border-b border-border py-16">
         <div className="container-custom">
-          <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-4">{heroTitle}</h1>
+          <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-4">{t("aboutPage.heroTitle")}</h1>
           <p className="text-muted-foreground text-lg max-w-2xl">
-            {heroSubtitle}
+            {t("aboutPage.heroSubtitle")}
           </p>
         </div>
       </section>
@@ -164,39 +97,16 @@ export default async function AboutPage() {
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div>
               <span className="inline-block px-4 py-1 bg-primary/10 text-primary rounded-full text-sm font-medium mb-4">
-                {storyBadge}
+                {t("aboutPage.storyBadge")}
               </span>
               <h2
                 className="text-3xl md:text-4xl font-bold text-foreground mb-6"
-                dangerouslySetInnerHTML={createSafeHtml(storyTitle)}
+                dangerouslySetInnerHTML={createSafeHtml(t("aboutPage.storyTitle"))}
               />
               <div className="space-y-4 text-muted-foreground">
-                {paragraphs.length > 0 ? (
-                  paragraphs.map((paragraph, index) => (
-                    <p key={index}>{paragraph}</p>
-                  ))
-                ) : (
-                  <>
-                    <p>
-                      NGE Ambalaj, 2012 yılında kurulmuş olup, Türkiye'nin güneyinde Adana Organize
-                      Sanayi Bölgesi'nde faaliyet gösteren bir endüstriyel ambalaj malzemeleri ticaret
-                      firmasıdır. Sektörün dinamiklerine uygun, yüksek kalite ve sürdürülebilir iş
-                      ortaklığı ilkeleriyle çalışıyoruz.
-                    </p>
-                    <p>
-                      Kuruluşumuzdan bu yana temel misyonumuz, işletmelerin lojistik ve sevkiyat
-                      süreçlerini optimize eden endüstriyel streç filmler (ön gerdirilmiş streç) ve
-                      PET çemberler başta olmak üzere ambalaj çözümleri sunmaktır. Ürünlerimiz;
-                      dayanıklılık, mukavemet ve güvenilir performans kriterleriyle seçilir, ulusal
-                      ve uluslararası standartlara uygun şekilde tedarik edilir.
-                    </p>
-                    <p>
-                      Çemberleme makineleri, çemberler, endüstriyel yağlar ve ambalaj malzemeleri
-                      konusunda uzmanlaşmış ekibimiz, müşterilerimizin ihtiyaçlarına en uygun
-                      çözümleri sunmak için çalışmaktadır.
-                    </p>
-                  </>
-                )}
+                {paragraphs.map((paragraph, index) => (
+                  <p key={index}>{paragraph}</p>
+                ))}
               </div>
             </div>
             <div className="relative">
@@ -208,8 +118,8 @@ export default async function AboutPage() {
                 />
               </div>
               <div className="absolute -bottom-6 -left-6 bg-primary text-primary-foreground p-6 rounded-xl shadow-xl">
-                <div className="text-4xl font-bold">{yearsExperience}</div>
-                <div className="text-sm opacity-90">{yearsLabel}</div>
+                <div className="text-4xl font-bold">{t("aboutPage.yearsExperience")}</div>
+                <div className="text-sm opacity-90">{t("aboutPage.yearsLabel")}</div>
               </div>
             </div>
           </div>
@@ -221,10 +131,10 @@ export default async function AboutPage() {
         <div className="container-custom">
           <div className="text-center mb-12">
             <span className="inline-block px-4 py-1 bg-primary/10 text-primary rounded-full text-sm font-medium mb-4">
-              {valuesBadge}
+              {t("aboutPage.valuesBadge")}
             </span>
             <h2 className="text-3xl md:text-4xl font-bold text-foreground">
-              {valuesTitle}
+              {t("aboutPage.valuesTitle")}
             </h2>
           </div>
           <div className="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto">
@@ -243,7 +153,7 @@ export default async function AboutPage() {
           <div className="mt-8 text-center">
             <p
               className="text-muted-foreground max-w-2xl mx-auto"
-              dangerouslySetInnerHTML={createSafeHtml(valuesFooter)}
+              dangerouslySetInnerHTML={createSafeHtml(t("aboutPage.valuesFooter"))}
             />
           </div>
         </div>
@@ -274,10 +184,10 @@ export default async function AboutPage() {
         <div className="container-custom">
           <div className="text-center mb-12">
             <span className="inline-block px-4 py-1 bg-primary/10 text-primary rounded-full text-sm font-medium mb-4">
-              {whyUsBadge}
+              {t("aboutPage.whyUsBadge")}
             </span>
             <h2 className="text-3xl md:text-4xl font-bold text-foreground">
-              {whyUsTitle}
+              {t("aboutPage.whyUsTitle")}
             </h2>
           </div>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -301,16 +211,16 @@ export default async function AboutPage() {
       <section className="py-16 bg-primary text-primary-foreground">
         <div className="container-custom text-center">
           <h2 className="text-3xl md:text-4xl font-bold mb-4">
-            {ctaTitle}
+            {t("aboutPage.ctaTitle")}
           </h2>
           <p className="text-primary-foreground/80 max-w-2xl mx-auto mb-8">
-            {ctaSubtitle}
+            {t("aboutPage.ctaSubtitle")}
           </p>
           <Link
             href="/iletisim"
             className="inline-flex items-center justify-center px-8 py-4 bg-white text-primary font-semibold rounded-lg hover:bg-white/90 transition-colors"
           >
-            {ctaButtonText}
+            {t("aboutPage.ctaButtonText")}
           </Link>
         </div>
       </section>

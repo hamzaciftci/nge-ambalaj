@@ -79,12 +79,93 @@
   },
   "products": {
     "title": "Ürünlerimiz",
-    "subtitle": "Geniş ürün yelpazemizi keşfedin",
+    "subtitle": "Endüstriyel ambalaj ihtiyaçlarınız için geniş ürün yelpazemizi keşfedin. Kaliteli ürünler ve profesyonel hizmet anlayışı ile yanınızdayız.",
     "noProducts": "Bu kategoride henüz ürün bulunmamaktadır.",
     "description": "Açıklama",
     "specifications": "Teknik Özellikler",
     "relatedProducts": "İlgili Ürünler",
     "category": "Kategori",
-    "subCategory": "Alt Kategori"
+    "subCategory": "Alt Kategori",
+    "subCategories": "Alt Kategori"
+  },
+  "aboutPage": {
+    "heroTitle": "Hakkımızda",
+    "heroSubtitle": "2012'den bu yana endüstriyel ambalaj sektöründe güvenilir çözüm ortağınız.",
+    "storyBadge": "Hikayemiz",
+    "storyTitle": "Kalite ve Güven ile Örülmüş <span class=\"text-primary\">10+ Yıl</span>",
+    "yearsExperience": "10+",
+    "yearsLabel": "Yıllık Tecrübe",
+    "valuesBadge": "Değerlerimiz",
+    "valuesTitle": "NGE Ambalaj Olarak Biz",
+    "whyUsBadge": "Neden Biz?",
+    "whyUsTitle": "Bizi Tercih Etmeniz İçin Nedenler",
+    "ctaTitle": "İşletmenizin Ambalaj İhtiyaçları İçin",
+    "ctaSubtitle": "NGE Ambalaj ile işletmenizin ambalaj ihtiyaçlarını profesyonel ve güvenilir bir iş ortağıyla karşılayın.",
+    "ctaButtonText": "Bizimle İletişime Geçin",
+    "mainContentParagraph1": "NGE Ambalaj, 2012 yılında kurulmuş olup, Türkiye'nin güneyinde Adana Organize Sanayi Bölgesi'nde faaliyet gösteren bir endüstriyel ambalaj malzemeleri ticaret firmasıdır. Sektörün dinamiklerine uygun, yüksek kalite ve sürdürülebilir iş ortaklığı ilkeleriyle çalışıyoruz.",
+    "mainContentParagraph2": "Kuruluşumuzdan bu yana temel misyonumuz, işletmelerin lojistik ve sevkiyat süreçlerini optimize eden endüstriyel streç filmler (ön gerdirilmiş streç) ve PET çemberler başta olmak üzere ambalaj çözümleri sunmaktır. Ürünlerimiz; dayanıklılık, mukavemet ve güvenilir performans kriterleriyle seçilir, ulusal ve uluslararası standartlara uygun şekilde tedarik edilir.",
+    "mainContentParagraph3": "Çemberleme makineleri, çemberler, endüstriyel yağlar ve ambalaj malzemeleri konusunda uzmanlaşmış ekibimiz, müşterilerimizin ihtiyaçlarına en uygun çözümleri sunmak için çalışmaktadır.",
+    "highlights": {
+      "highlight1": "İş ortaklarımızın tedarik zincirini güçlendiren kaliteli ambalaj malzemeleri sağlıyoruz",
+      "highlight2": "Her ölçekten işletmeye uygun ürün portföyüyle hızlı ve etkili ticari çözümler sunuyoruz",
+      "highlight3": "İthalat ve ihracat süreçlerinde güvenilir lojistik desteği sağlıyoruz",
+      "highlight4": "Müşteri memnuniyetini her zaman önceliğimiz olarak kabul ediyoruz"
+    },
+    "valuesFooter": "Müşterilerimizle kurduğumuz ilişkilerde <strong class=\"text-foreground\">şeffaflık</strong>, <strong class=\"text-foreground\">doğruluk</strong> ve <strong class=\"text-foreground\">süreklilik</strong> temel değerlerimizdir. Her yeni siparişte beklentileri karşılamanın ötesine geçmek için çalışırız.",
+    "mission": "İşletmelerin lojistik ve sevkiyat süreçlerini optimize eden endüstriyel streç filmler ve PET çemberler başta olmak üzere kaliteli ambalaj çözümleri sunmak.",
+    "vision": "Türkiye'nin güvenilir endüstriyel ambalaj tedarikçisi olarak, yüksek kalite ve sürdürülebilir iş ortaklığı ilkeleriyle sektöre yön vermek.",
+    "features": {
+      "yearsExperience": {
+        "title": "10+ Yıllık Tecrübe",
+        "description": "2012'den bu yana sektörde edindiğimiz deneyim ile yanınızdayız."
+      },
+      "reliablePartner": {
+        "title": "Güvenilir İş Ortağı",
+        "description": "Müşterilerimizle kurduğumuz ilişkilerde şeffaflık ve süreklilik."
+      },
+      "fastDelivery": {
+        "title": "Hızlı Teslimat",
+        "description": "Siparişleriniz en kısa sürede kapınıza ulaştırılır."
+      },
+      "qualityGuarantee": {
+        "title": "Kalite Garantisi",
+        "description": "Tüm ürünlerimiz ulusal ve uluslararası standartlara uygun."
+      },
+      "importExport": {
+        "title": "İthalat & İhracat",
+        "description": "Güvenilir lojistik desteği ile ithalat ve ihracat hizmetleri."
+      },
+      "wideRange": {
+        "title": "Geniş Ürün Portföyü",
+        "description": "Her ölçekten işletmeye uygun ambalaj çözümleri."
+      }
+    }
+  },
+  "contactForm": {
+    "title": "Mesaj Gönderin",
+    "name": "İsim Soyisim *",
+    "namePlaceholder": "Adınız Soyadınız",
+    "email": "E-posta *",
+    "emailPlaceholder": "ornek@email.com",
+    "phone": "Telefon",
+    "phonePlaceholder": "+90 5XX XXX XX XX",
+    "company": "Firma",
+    "companyPlaceholder": "Firma Adı",
+    "subject": "Konu *",
+    "subjectPlaceholder": "Mesajınızın konusu",
+    "message": "Mesaj *",
+    "messagePlaceholder": "Mesajınızı buraya yazın...",
+    "submitButton": "Mesaj Gönder",
+    "submitting": "Gönderiliyor...",
+    "successTitle": "Mesajınız Gönderildi!",
+    "successMessage": "En kısa sürede size dönüş yapacağız.",
+    "newMessageButton": "Yeni Mesaj Gönder",
+    "errors": {
+      "nameMin": "İsim en az 2 karakter olmalıdır",
+      "emailInvalid": "Geçerli bir e-posta adresi giriniz",
+      "subjectMin": "Konu en az 3 karakter olmalıdır",
+      "messageMin": "Mesaj en az 10 karakter olmalıdır",
+      "sendError": "Mesaj gönderilemedi"
+    }
   }
 }

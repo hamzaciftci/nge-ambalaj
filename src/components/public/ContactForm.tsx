@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
+import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -18,17 +19,6 @@ import {
 import { Send, Loader2, CheckCircle } from "lucide-react";
 import { toast } from "sonner";
 
-const formSchema = z.object({
-  name: z.string().min(2, "İsim en az 2 karakter olmalıdır"),
-  email: z.string().email("Geçerli bir e-posta adresi giriniz"),
-  phone: z.string().optional(),
-  company: z.string().optional(),
-  subject: z.string().min(3, "Konu en az 3 karakter olmalıdır"),
-  message: z.string().min(10, "Mesaj en az 10 karakter olmalıdır"),
-});
-
-type FormData = z.infer<typeof formSchema>;
-
 interface ContactFormProps {
   formTitle?: string;
   successTitle?: string;
@@ -37,13 +27,25 @@ interface ContactFormProps {
 }
 
 export default function ContactForm({
-  formTitle = "Mesaj Gönderin",
-  successTitle = "Mesajınız Gönderildi!",
-  successMessage = "En kısa sürede size dönüş yapacağız.",
-  newMessageButton = "Yeni Mesaj Gönder",
+  formTitle,
+  successTitle,
+  successMessage,
+  newMessageButton,
 }: ContactFormProps) {
+  const { t } = useTranslation();
   const [loading, setLoading] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+
+  const formSchema = z.object({
+    name: z.string().min(2, t("contactForm.errors.nameMin")),
+    email: z.string().email(t("contactForm.errors.emailInvalid")),
+    phone: z.string().optional(),
+    company: z.string().optional(),
+    subject: z.string().min(3, t("contactForm.errors.subjectMin")),
+    message: z.string().min(10, t("contactForm.errors.messageMin")),
+  });
+
+  type FormData = z.infer<typeof formSchema>;
 
   const form = useForm<FormData>({
     resolver: zodResolver(formSchema),
@@ -68,11 +70,11 @@ export default function ContactForm({
 
       if (!res.ok) {
         const resData = await res.json();
-        throw new Error(resData.error || "Mesaj gönderilemedi");
+        throw new Error(resData.error || t("contactForm.errors.sendError"));
       }
 
       setSubmitted(true);
-      toast.success("Mesajınız başarıyla gönderildi!");
+      toast.success(t("contact.form.success"));
       form.reset();
     } catch (error: any) {
       toast.error(error.message);
@@ -84,7 +86,7 @@ export default function ContactForm({
   return (
     <div className="bg-card rounded-2xl border border-border p-8">
       <h2 className="text-2xl font-bold text-foreground mb-6">
-        {formTitle}
+        {formTitle || t("contactForm.title")}
       </h2>
 
       {submitted ? (
@@ -93,13 +95,13 @@ export default function ContactForm({
             <CheckCircle className="h-8 w-8 text-green-600" />
           </div>
           <h3 className="text-xl font-semibold text-foreground mb-2">
-            {successTitle}
+            {successTitle || t("contactForm.successTitle")}
           </h3>
           <p className="text-muted-foreground mb-6">
-            {successMessage}
+            {successMessage || t("contactForm.successMessage")}
           </p>
           <Button onClick={() => setSubmitted(false)}>
-            {newMessageButton}
+            {newMessageButton || t("contactForm.newMessageButton")}
           </Button>
         </div>
       ) : (
@@ -111,9 +113,9 @@ export default function ContactForm({
                 name="name"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>İsim Soyisim *</FormLabel>
+                    <FormLabel>{t("contactForm.name")}</FormLabel>
                     <FormControl>
-                      <Input {...field} placeholder="Adınız Soyadınız" />
+                      <Input {...field} placeholder={t("contactForm.namePlaceholder")} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -124,9 +126,9 @@ export default function ContactForm({
                 name="email"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>E-posta *</FormLabel>
+                    <FormLabel>{t("contactForm.email")}</FormLabel>
                     <FormControl>
-                      <Input {...field} type="email" placeholder="ornek@email.com" />
+                      <Input {...field} type="email" placeholder={t("contactForm.emailPlaceholder")} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -140,9 +142,9 @@ export default function ContactForm({
                 name="phone"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Telefon</FormLabel>
+                    <FormLabel>{t("contactForm.phone")}</FormLabel>
                     <FormControl>
-                      <Input {...field} placeholder="+90 5XX XXX XX XX" />
+                      <Input {...field} placeholder={t("contactForm.phonePlaceholder")} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -153,9 +155,9 @@ export default function ContactForm({
                 name="company"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Firma</FormLabel>
+                    <FormLabel>{t("contactForm.company")}</FormLabel>
                     <FormControl>
-                      <Input {...field} placeholder="Firma Adı" />
+                      <Input {...field} placeholder={t("contactForm.companyPlaceholder")} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -168,9 +170,9 @@ export default function ContactForm({
               name="subject"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Konu *</FormLabel>
+                  <FormLabel>{t("contactForm.subject")}</FormLabel>
                   <FormControl>
-                    <Input {...field} placeholder="Mesajınızın konusu" />
+                    <Input {...field} placeholder={t("contactForm.subjectPlaceholder")} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -182,11 +184,11 @@ export default function ContactForm({
               name="message"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Mesaj *</FormLabel>
+                  <FormLabel>{t("contactForm.message")}</FormLabel>
                   <FormControl>
                     <Textarea
                       {...field}
-                      placeholder="Mesajınızı buraya yazın..."
+                      placeholder={t("contactForm.messagePlaceholder")}
                       rows={6}
                     />
                   </FormControl>
@@ -199,12 +201,12 @@ export default function ContactForm({
               {loading ? (
                 <>
                   <Loader2 className="h-5 w-5 animate-spin" />
-                  Gönderiliyor...
+                  {t("contactForm.submitting")}
                 </>
               ) : (
                 <>
                   <Send className="h-5 w-5" />
-                  Mesaj Gönder
+                  {t("contactForm.submitButton")}
                 </>
               )}
             </Button>
