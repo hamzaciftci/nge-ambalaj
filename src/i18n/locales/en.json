@@ -142,6 +142,39 @@
       }
     }
   },
+  "productDetail": {
+    "notFound": "Product Not Found",
+    "backToProducts": "Back to Products",
+    "featured": "Featured",
+    "image": "image",
+    "featuresTitle": "Features",
+    "usageAreasTitle": "Usage Areas",
+    "advantagesTitle": "Advantages",
+    "getInfo": "Get Technical Info",
+    "backToCategory": "Back to Category",
+    "features": {
+      "feature1": "High performance design",
+      "feature2": "Durable and long-lasting",
+      "feature3": "Easy to use",
+      "feature4": "Low maintenance cost",
+      "feature5": "Professional quality",
+      "feature6": "Reliable performance"
+    },
+    "usageAreas": {
+      "area1": "Logistics and storage",
+      "area2": "Production facilities",
+      "area3": "Food industry",
+      "area4": "Construction materials",
+      "area5": "Textile industry",
+      "area6": "Automotive industry"
+    },
+    "advantages": {
+      "advantage1": "Time and labor savings",
+      "advantage2": "Professional packaging quality",
+      "advantage3": "Product safety",
+      "advantage4": "Cost optimization"
+    }
+  },
   "contactForm": {
     "title": "Send Message",
     "name": "Full Name *",

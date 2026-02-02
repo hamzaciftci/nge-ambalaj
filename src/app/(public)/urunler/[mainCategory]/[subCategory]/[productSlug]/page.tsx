@@ -2,10 +2,10 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import Image from "next/image";
-import { ChevronRight, ChevronLeft, ChevronRight as ChevronRightIcon, Star, Phone, ArrowLeft, CheckCircle2 } from "lucide-react";
+import { ChevronLeft, ChevronRight, Star, Phone, ArrowLeft, CheckCircle2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { useTranslation } from "react-i18next";
 
 interface Product {
   id: string;
@@ -21,48 +21,27 @@ interface Product {
   images: { id: string; url: string; alt?: string | null }[];
   subCategory: {
     name: string;
+    nameEn?: string | null;
     slug: string;
     mainCategory: {
       name: string;
+      nameEn?: string | null;
       slug: string;
     };
   };
 }
-
-// Default product details
-const productDetails = {
-  features: [
-    "Yüksek performanslı tasarım",
-    "Dayanıklı ve uzun ömürlü",
-    "Kolay kullanım",
-    "Düşük bakım maliyeti",
-    "Profesyonel kalite",
-    "Güvenilir performans",
-  ],
-  usageAreas: [
-    "Lojistik ve depolama",
-    "Üretim tesisleri",
-    "Gıda sektörü",
-    "İnşaat malzemeleri",
-    "Tekstil sektörü",
-    "Otomotiv sanayi",
-  ],
-  advantages: [
-    "Zaman ve işgücü tasarrufu",
-    "Profesyonel ambalaj kalitesi",
-    "Ürün güvenliği",
-    "Maliyet optimizasyonu",
-  ],
-};
 
 export default function ProductDetailPage({
   params,
 }: {
   params: { mainCategory: string; subCategory: string; productSlug: string };
 }) {
+  const { t, i18n } = useTranslation();
   const [product, setProduct] = useState<Product | null>(null);
   const [loading, setLoading] = useState(true);
   const [selectedImage, setSelectedImage] = useState(0);
+
+  const isEn = i18n.language === "en";
 
   useEffect(() => {
     async function fetchProduct() {
@@ -95,14 +74,21 @@ export default function ProductDetailPage({
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
-          <h1 className="text-2xl font-bold mb-4">Ürün Bulunamadı</h1>
+          <h1 className="text-2xl font-bold mb-4">{t("productDetail.notFound")}</h1>
           <Link href="/urunler" className="text-primary hover:underline">
-            Ürünlere Dön
+            {t("productDetail.backToProducts")}
           </Link>
         </div>
       </div>
     );
   }
+
+  // Get localized content
+  const productName = isEn && product.nameEn ? product.nameEn : product.name;
+  const productDescription = isEn && product.descriptionEn ? product.descriptionEn : product.description;
+  const productLongDescription = isEn && product.longDescriptionEn ? product.longDescriptionEn : product.longDescription;
+  const subCategoryName = isEn && product.subCategory.nameEn ? product.subCategory.nameEn : product.subCategory.name;
+  const mainCategoryName = isEn && product.subCategory.mainCategory.nameEn ? product.subCategory.mainCategory.nameEn : product.subCategory.mainCategory.name;
 
   const allImages = [product.image, ...product.images.map((img) => img.url)];
 
@@ -114,25 +100,50 @@ export default function ProductDetailPage({
     setSelectedImage((prev) => (prev - 1 + allImages.length) % allImages.length);
   };
 
+  const features = [
+    t("productDetail.features.feature1"),
+    t("productDetail.features.feature2"),
+    t("productDetail.features.feature3"),
+    t("productDetail.features.feature4"),
+    t("productDetail.features.feature5"),
+    t("productDetail.features.feature6"),
+  ];
+
+  const usageAreas = [
+    t("productDetail.usageAreas.area1"),
+    t("productDetail.usageAreas.area2"),
+    t("productDetail.usageAreas.area3"),
+    t("productDetail.usageAreas.area4"),
+    t("productDetail.usageAreas.area5"),
+    t("productDetail.usageAreas.area6"),
+  ];
+
+  const advantages = [
+    t("productDetail.advantages.advantage1"),
+    t("productDetail.advantages.advantage2"),
+    t("productDetail.advantages.advantage3"),
+    t("productDetail.advantages.advantage4"),
+  ];
+
   return (
     <div className="min-h-screen bg-background">
       {/* Breadcrumb */}
       <section className="bg-secondary py-6 border-b border-border">
         <div className="container-custom">
           <nav className="text-muted-foreground text-sm flex items-center gap-2 flex-wrap">
-            <Link href="/" className="hover:text-primary transition-colors">Ana Sayfa</Link>
+            <Link href="/" className="hover:text-primary transition-colors">{t("common.home")}</Link>
             <span>/</span>
-            <Link href="/urunler" className="hover:text-primary transition-colors">Ürünler</Link>
+            <Link href="/urunler" className="hover:text-primary transition-colors">{t("common.products")}</Link>
             <span>/</span>
             <Link href={`/urunler/${product.subCategory.mainCategory.slug}`} className="hover:text-primary transition-colors">
-              {product.subCategory.mainCategory.name}
+              {mainCategoryName}
             </Link>
             <span>/</span>
             <Link href={`/urunler/${product.subCategory.mainCategory.slug}/${product.subCategory.slug}`} className="hover:text-primary transition-colors">
-              {product.subCategory.name}
+              {subCategoryName}
             </Link>
             <span>/</span>
-            <span className="text-foreground font-medium">{product.name}</span>
+            <span className="text-foreground font-medium">{productName}</span>
           </nav>
         </div>
       </section>
@@ -146,14 +157,14 @@ export default function ProductDetailPage({
               <div className="aspect-square rounded-xl overflow-hidden bg-secondary border border-border relative">
                 <img
                   src={allImages[selectedImage]}
-                  alt={product.name}
+                  alt={productName}
                   className="w-full h-full object-cover"
                 />
                 {product.isFeatured && (
                   <div className="absolute top-4 right-4">
                     <div className="bg-yellow-500 text-white px-3 py-1.5 rounded-full flex items-center gap-1.5 text-sm font-medium">
                       <Star className="h-4 w-4 fill-current" />
-                      Öne Çıkan
+                      {t("productDetail.featured")}
                     </div>
                   </div>
                 )}
@@ -169,7 +180,7 @@ export default function ProductDetailPage({
                       onClick={nextImage}
                       className="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-white/80 backdrop-blur-sm rounded-full flex items-center justify-center shadow-lg hover:bg-white transition-colors"
                     >
-                      <ChevronRightIcon className="h-6 w-6" />
+                      <ChevronRight className="h-6 w-6" />
                     </button>
                   </>
                 )}
@@ -190,7 +201,7 @@ export default function ProductDetailPage({
                   >
                     <img
                       src={img}
-                      alt={`${product.name} görsel ${index + 1}`}
+                      alt={`${productName} ${t("productDetail.image")} ${index + 1}`}
                       className="w-full h-full object-cover"
                     />
                   </button>
@@ -202,28 +213,28 @@ export default function ProductDetailPage({
             <div className="space-y-6">
               <div>
                 <span className="inline-block px-3 py-1 bg-primary/10 text-primary rounded-full text-sm font-medium mb-4">
-                  {product.subCategory.name}
+                  {subCategoryName}
                 </span>
                 <h1 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
-                  {product.name}
+                  {productName}
                 </h1>
                 <p className="text-muted-foreground leading-relaxed">
-                  {product.description}
+                  {productDescription}
                 </p>
               </div>
 
               {/* Long Description */}
-              {product.longDescription && (
-                <div className="text-muted-foreground leading-relaxed">
-                  {product.longDescription}
+              {productLongDescription && (
+                <div className="text-muted-foreground leading-relaxed whitespace-pre-line">
+                  {productLongDescription}
                 </div>
               )}
 
               {/* Features */}
               <div>
-                <h3 className="text-lg font-semibold text-foreground mb-4">Özellikler</h3>
+                <h3 className="text-lg font-semibold text-foreground mb-4">{t("productDetail.featuresTitle")}</h3>
                 <div className="grid sm:grid-cols-2 gap-3">
-                  {productDetails.features.map((feature, index) => (
+                  {features.map((feature, index) => (
                     <div key={index} className="flex items-center gap-2">
                       <CheckCircle2 className="h-5 w-5 text-primary flex-shrink-0" />
                       <span className="text-sm text-foreground">{feature}</span>
@@ -234,9 +245,9 @@ export default function ProductDetailPage({
 
               {/* Usage Areas */}
               <div className="bg-secondary rounded-lg p-6">
-                <h3 className="text-lg font-semibold text-foreground mb-4">Kullanım Alanları</h3>
+                <h3 className="text-lg font-semibold text-foreground mb-4">{t("productDetail.usageAreasTitle")}</h3>
                 <div className="flex flex-wrap gap-2">
-                  {productDetails.usageAreas.map((area, index) => (
+                  {usageAreas.map((area, index) => (
                     <span
                       key={index}
                       className="px-3 py-1.5 bg-background rounded-full text-sm text-foreground border border-border"
@@ -249,9 +260,9 @@ export default function ProductDetailPage({
 
               {/* Advantages */}
               <div>
-                <h3 className="text-lg font-semibold text-foreground mb-4">Avantajlar</h3>
+                <h3 className="text-lg font-semibold text-foreground mb-4">{t("productDetail.advantagesTitle")}</h3>
                 <ul className="space-y-2">
-                  {productDetails.advantages.map((advantage, index) => (
+                  {advantages.map((advantage, index) => (
                     <li key={index} className="flex items-center gap-2 text-muted-foreground">
                       <div className="h-2 w-2 rounded-full bg-primary" />
                       {advantage}
@@ -265,13 +276,13 @@ export default function ProductDetailPage({
                 <Button asChild size="lg" className="gap-2">
                   <Link href="/iletisim">
                     <Phone className="h-5 w-5" />
-                    Teknik Bilgi Al
+                    {t("productDetail.getInfo")}
                   </Link>
                 </Button>
                 <Button asChild variant="outline" size="lg" className="gap-2">
                   <Link href={`/urunler/${product.subCategory.mainCategory.slug}/${product.subCategory.slug}`}>
                     <ArrowLeft className="h-5 w-5" />
-                    Kategoriye Dön
+                    {t("productDetail.backToCategory")}
                   </Link>
                 </Button>
               </div>

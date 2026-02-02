@@ -142,6 +142,39 @@
       }
     }
   },
+  "productDetail": {
+    "notFound": "Ürün Bulunamadı",
+    "backToProducts": "Ürünlere Dön",
+    "featured": "Öne Çıkan",
+    "image": "görsel",
+    "featuresTitle": "Özellikler",
+    "usageAreasTitle": "Kullanım Alanları",
+    "advantagesTitle": "Avantajlar",
+    "getInfo": "Teknik Bilgi Al",
+    "backToCategory": "Kategoriye Dön",
+    "features": {
+      "feature1": "Yüksek performanslı tasarım",
+      "feature2": "Dayanıklı ve uzun ömürlü",
+      "feature3": "Kolay kullanım",
+      "feature4": "Düşük bakım maliyeti",
+      "feature5": "Profesyonel kalite",
+      "feature6": "Güvenilir performans"
+    },
+    "usageAreas": {
+      "area1": "Lojistik ve depolama",
+      "area2": "Üretim tesisleri",
+      "area3": "Gıda sektörü",
+      "area4": "İnşaat malzemeleri",
+      "area5": "Tekstil sektörü",
+      "area6": "Otomotiv sanayi"
+    },
+    "advantages": {
+      "advantage1": "Zaman ve işgücü tasarrufu",
+      "advantage2": "Profesyonel ambalaj kalitesi",
+      "advantage3": "Ürün güvenliği",
+      "advantage4": "Maliyet optimizasyonu"
+    }
+  },
   "contactForm": {
     "title": "Mesaj Gönderin",
     "name": "İsim Soyisim *",
