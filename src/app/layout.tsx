@@ -17,6 +17,11 @@ export const metadata: Metadata = {
     default: "NGE Ambalaj | Endüstriyel Ambalaj Çözümleri - Adana",
     template: "%s | NGE Ambalaj",
   },
+  icons: {
+    icon: "/favicon.png",
+    shortcut: "/favicon.png",
+    apple: "/favicon.png",
+  },
   description:
     "NGE Ambalaj - Çemberleme makineleri, PET & çelik çemberler, streç filmler ve endüstriyel ambalaj malzemeleri. Adana OSB'de 10+ yıllık tecrübe.",
   keywords: [
