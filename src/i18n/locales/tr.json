@@ -52,6 +52,7 @@
   "contact": {
     "title": "İletişim",
     "subtitle": "Sorularınız için bizimle iletişime geçin",
+    "mapSubtitle": "Adana Organize Sanayi Bölgesi'nde hizmetinizdeyiz.",
     "form": {
       "name": "Adınız Soyadınız",
       "email": "E-posta Adresiniz",

@@ -18,7 +18,7 @@ export default function AboutPage() {
     return null;
   }
 
-  const storyImage = "https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?w=800";
+  const storyImage = "/about-team.jpg";
 
   const paragraphs = [
     t("aboutPage.mainContentParagraph1"),

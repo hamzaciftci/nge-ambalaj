@@ -160,7 +160,7 @@ export default function ContactPage() {
           <div className="text-center mb-8">
             <h2 className="text-2xl font-bold text-foreground mb-2">{t("contact.info.address")}</h2>
             <p className="text-muted-foreground">
-              Adana Organize Sanayi Bölgesi'nde hizmetinizdeyiz.
+              {t("contact.mapSubtitle")}
             </p>
           </div>
           <div className="aspect-[21/9] rounded-2xl overflow-hidden border border-border">
