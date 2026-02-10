@@ -7,27 +7,27 @@ async function main() {
   console.log("🌱 Starting seed...");
 
   // Create admin user
+  // Create or update admin user
   const adminEmail = process.env.ADMIN_EMAIL || "admin@ngambalaj.com";
-  const adminPassword = process.env.ADMIN_PASSWORD || "admin123";
+  const adminPassword = process.env.ADMIN_PASSWORD || "NgeAmbalaj2026*-.";
 
-  const existingAdmin = await prisma.user.findUnique({
+  const passwordHash = await bcrypt.hash(adminPassword, 12);
+
+  const admin = await prisma.user.upsert({
     where: { email: adminEmail },
+    update: {
+      passwordHash,
+      role: "SUPER_ADMIN", // Ensure role is always correct
+    },
+    create: {
+      email: adminEmail,
+      passwordHash,
+      name: "Admin",
+      role: "SUPER_ADMIN",
+    },
   });
 
-  if (!existingAdmin) {
-    const passwordHash = await bcrypt.hash(adminPassword, 12);
-    await prisma.user.create({
-      data: {
-        email: adminEmail,
-        passwordHash,
-        name: "Admin",
-        role: "SUPER_ADMIN",
-      },
-    });
-    console.log(`✅ Admin user created: ${adminEmail}`);
-  } else {
-    console.log(`ℹ️ Admin user already exists: ${adminEmail}`);
-  }
+  console.log(`✅ Admin user synced: ${adminEmail}`);
 
   // Create site settings
   const existingSettings = await prisma.siteSettings.findUnique({

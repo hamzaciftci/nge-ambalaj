@@ -1,16 +1,37 @@
 version: '3.8'
 
 services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: nge_user
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: nge_ambalaj
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U nge_user -d nge_ambalaj"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - nge-network
+
   app:
     build: .
     ports:
       - "3000:3000"
     environment:
       - NODE_ENV=production
-      - STORAGE_POSTGRES_PRISMA_URL=${STORAGE_POSTGRES_PRISMA_URL}
-      - STORAGE_DATABASE_URL_UNPOOLED=${STORAGE_DATABASE_URL_UNPOOLED}
-      - BLOB_READ_WRITE_TOKEN=${BLOB_READ_WRITE_TOKEN}
+      - STORAGE_POSTGRES_PRISMA_URL=postgresql://nge_user:${DB_PASSWORD}@db:5432/nge_ambalaj
+      - STORAGE_DATABASE_URL_UNPOOLED=postgresql://nge_user:${DB_PASSWORD}@db:5432/nge_ambalaj
       - NEXT_PUBLIC_SITE_URL=${NEXT_PUBLIC_SITE_URL}
+      - ADMIN_EMAIL=${ADMIN_EMAIL}
+      - ADMIN_PASSWORD=${ADMIN_PASSWORD}
+    depends_on:
+      db:
+        condition: service_healthy
     restart: unless-stopped
     healthcheck:
       test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:3000/"]
@@ -18,17 +39,32 @@ services:
       timeout: 10s
       retries: 3
       start_period: 40s
+    networks:
+      - nge-network
 
-  # Optional: Local PostgreSQL (if you don't want to use Neon)
-  # db:
-  #   image: postgres:16-alpine
-  #   environment:
-  #     POSTGRES_USER: nge_user
-  #     POSTGRES_PASSWORD: your_secure_password
-  #     POSTGRES_DB: nge_ambalaj
-  #   volumes:
-  #     - postgres_data:/var/lib/postgresql/data
-  #   restart: unless-stopped
+  # Database migration & seed (run once with: docker compose --profile tools run --rm migrate)
+  migrate:
+    build:
+      context: .
+      target: builder
+    working_dir: /app
+    command: sh -c "npx prisma db push --skip-generate && npx tsx prisma/seed.ts"
+    environment:
+      - STORAGE_POSTGRES_PRISMA_URL=postgresql://nge_user:${DB_PASSWORD}@db:5432/nge_ambalaj
+      - STORAGE_DATABASE_URL_UNPOOLED=postgresql://nge_user:${DB_PASSWORD}@db:5432/nge_ambalaj
+      - ADMIN_EMAIL=${ADMIN_EMAIL}
+      - ADMIN_PASSWORD=${ADMIN_PASSWORD}
+    depends_on:
+      db:
+        condition: service_healthy
+    profiles:
+      - tools
+    networks:
+      - nge-network
 
-# volumes:
-#   postgres_data:
+networks:
+  nge-network:
+    driver: bridge
+
+volumes:
+  postgres_data:
