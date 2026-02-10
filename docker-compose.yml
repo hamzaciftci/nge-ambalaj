@@ -50,13 +50,13 @@ services:
     working_dir: /app
     command: sh -c "npx prisma db push --skip-generate && npx tsx prisma/seed.ts"
     environment:
-      - STORAGE_POSTGRES_PRISMA_URL=postgresql://nge_user:${DB_PASSWORD}@db:5432/nge_ambalaj
-      - STORAGE_DATABASE_URL_UNPOOLED=postgresql://nge_user:${DB_PASSWORD}@db:5432/nge_ambalaj
+      - STORAGE_POSTGRES_PRISMA_URL=${STORAGE_POSTGRES_PRISMA_URL}
+      - STORAGE_DATABASE_URL_UNPOOLED=${STORAGE_DATABASE_URL_UNPOOLED}
       - ADMIN_EMAIL=${ADMIN_EMAIL}
       - ADMIN_PASSWORD=${ADMIN_PASSWORD}
-    depends_on:
-      db:
-        condition: service_healthy
+    # depends_on:
+    #   db:
+    #     condition: service_healthy
     profiles:
       - tools
     networks:
