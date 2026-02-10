@@ -1,0 +1,205 @@
+{
+  "common": {
+    "home": "Ana Sayfa",
+    "products": "Ürünler",
+    "about": "Hakkımızda",
+    "contact": "İletişim",
+    "allProducts": "Tüm Ürünler",
+    "viewAll": "Tümünü Gör",
+    "viewDetails": "Detayları Gör",
+    "learnMore": "Daha Fazla",
+    "getQuote": "Teklif Al",
+    "callUs": "Bizi Arayın",
+    "sendMessage": "Mesaj Gönder",
+    "loading": "Yükleniyor...",
+    "error": "Bir hata oluştu",
+    "notFound": "Sayfa bulunamadı",
+    "backToHome": "Ana Sayfaya Dön",
+    "language": "Dil",
+    "turkish": "Türkçe",
+    "english": "English"
+  },
+  "hero": {
+    "title": "Profesyonel Ambalaj Çözümleri",
+    "subtitle": "Endüstriyel ambalaj malzemeleri ve çemberleme sistemlerinde uzman çözüm ortağınız",
+    "cta": "Ürünlerimizi Keşfedin"
+  },
+  "categories": {
+    "title": "Ürün Kategorilerimiz",
+    "subtitle": "İhtiyacınıza uygun profesyonel ambalaj çözümleri"
+  },
+  "about": {
+    "title": "Hakkımızda",
+    "subtitle": "NG Ambalaj olarak, endüstriyel ambalaj sektöründe güvenilir çözüm ortağınızız",
+    "mission": "Misyonumuz",
+    "missionText": "Müşterilerimize en kaliteli ambalaj malzemelerini, en uygun fiyatlarla ve en hızlı teslimatla sunmak.",
+    "vision": "Vizyonumuz",
+    "visionText": "Türkiye'nin lider ambalaj malzemeleri tedarikçisi olmak ve sektörde yenilikçi çözümler sunmak.",
+    "experience": "Yıllık Deneyim",
+    "customers": "Mutlu Müşteri",
+    "products": "Ürün Çeşidi",
+    "delivery": "Hızlı Teslimat",
+    "yearsExperience": "15+ Yıl",
+    "happyCustomers": "500+",
+    "productVariety": "200+",
+    "fastDelivery": "24 Saat"
+  },
+  "cta": {
+    "title": "Profesyonel Ambalaj Çözümleri İçin",
+    "subtitle": "İhtiyacınıza özel çözümler için hemen bizimle iletişime geçin",
+    "button": "Hemen Teklif Alın"
+  },
+  "contact": {
+    "title": "İletişim",
+    "subtitle": "Sorularınız için bizimle iletişime geçin",
+    "mapSubtitle": "Adana Organize Sanayi Bölgesi'nde hizmetinizdeyiz.",
+    "form": {
+      "name": "Adınız Soyadınız",
+      "email": "E-posta Adresiniz",
+      "phone": "Telefon Numaranız",
+      "company": "Firma Adı",
+      "subject": "Konu",
+      "message": "Mesajınız",
+      "submit": "Gönder",
+      "success": "Mesajınız başarıyla gönderildi!",
+      "error": "Mesaj gönderilirken bir hata oluştu."
+    },
+    "info": {
+      "address": "Adres",
+      "phone": "Telefon",
+      "email": "E-posta",
+      "workingHours": "Çalışma Saatleri"
+    }
+  },
+  "footer": {
+    "description": "Endüstriyel ambalaj malzemeleri ve çemberleme sistemlerinde uzman çözüm ortağınız.",
+    "quickLinks": "Hızlı Bağlantılar",
+    "categories": "Kategoriler",
+    "contact": "İletişim",
+    "rights": "Tüm hakları saklıdır."
+  },
+  "products": {
+    "title": "Ürünlerimiz",
+    "subtitle": "Endüstriyel ambalaj ihtiyaçlarınız için geniş ürün yelpazemizi keşfedin. Kaliteli ürünler ve profesyonel hizmet anlayışı ile yanınızdayız.",
+    "noProducts": "Bu kategoride henüz ürün bulunmamaktadır.",
+    "description": "Açıklama",
+    "specifications": "Teknik Özellikler",
+    "relatedProducts": "İlgili Ürünler",
+    "category": "Kategori",
+    "subCategory": "Alt Kategori",
+    "subCategories": "Alt Kategori"
+  },
+  "aboutPage": {
+    "heroTitle": "Hakkımızda",
+    "heroSubtitle": "2012'den bu yana endüstriyel ambalaj sektöründe güvenilir çözüm ortağınız.",
+    "storyBadge": "Hikayemiz",
+    "storyTitle": "Kalite ve Güven ile Örülmüş <span class=\"text-primary\">10+ Yıl</span>",
+    "yearsExperience": "10+",
+    "yearsLabel": "Yıllık Tecrübe",
+    "valuesBadge": "Değerlerimiz",
+    "valuesTitle": "NGE Ambalaj Olarak Biz",
+    "whyUsBadge": "Neden Biz?",
+    "whyUsTitle": "Bizi Tercih Etmeniz İçin Nedenler",
+    "ctaTitle": "İşletmenizin Ambalaj İhtiyaçları İçin",
+    "ctaSubtitle": "NGE Ambalaj ile işletmenizin ambalaj ihtiyaçlarını profesyonel ve güvenilir bir iş ortağıyla karşılayın.",
+    "ctaButtonText": "Bizimle İletişime Geçin",
+    "mainContentParagraph1": "NGE Ambalaj, 2012 yılında kurulmuş olup, Türkiye'nin güneyinde Adana Organize Sanayi Bölgesi'nde faaliyet gösteren bir endüstriyel ambalaj malzemeleri ticaret firmasıdır. Sektörün dinamiklerine uygun, yüksek kalite ve sürdürülebilir iş ortaklığı ilkeleriyle çalışıyoruz.",
+    "mainContentParagraph2": "Kuruluşumuzdan bu yana temel misyonumuz, işletmelerin lojistik ve sevkiyat süreçlerini optimize eden endüstriyel streç filmler (ön gerdirilmiş streç) ve PET çemberler başta olmak üzere ambalaj çözümleri sunmaktır. Ürünlerimiz; dayanıklılık, mukavemet ve güvenilir performans kriterleriyle seçilir, ulusal ve uluslararası standartlara uygun şekilde tedarik edilir.",
+    "mainContentParagraph3": "Çemberleme makineleri, çemberler, endüstriyel yağlar ve ambalaj malzemeleri konusunda uzmanlaşmış ekibimiz, müşterilerimizin ihtiyaçlarına en uygun çözümleri sunmak için çalışmaktadır.",
+    "highlights": {
+      "highlight1": "İş ortaklarımızın tedarik zincirini güçlendiren kaliteli ambalaj malzemeleri sağlıyoruz",
+      "highlight2": "Her ölçekten işletmeye uygun ürün portföyüyle hızlı ve etkili ticari çözümler sunuyoruz",
+      "highlight3": "İthalat ve ihracat süreçlerinde güvenilir lojistik desteği sağlıyoruz",
+      "highlight4": "Müşteri memnuniyetini her zaman önceliğimiz olarak kabul ediyoruz"
+    },
+    "valuesFooter": "Müşterilerimizle kurduğumuz ilişkilerde <strong class=\"text-foreground\">şeffaflık</strong>, <strong class=\"text-foreground\">doğruluk</strong> ve <strong class=\"text-foreground\">süreklilik</strong> temel değerlerimizdir. Her yeni siparişte beklentileri karşılamanın ötesine geçmek için çalışırız.",
+    "mission": "İşletmelerin lojistik ve sevkiyat süreçlerini optimize eden endüstriyel streç filmler ve PET çemberler başta olmak üzere kaliteli ambalaj çözümleri sunmak.",
+    "vision": "Türkiye'nin güvenilir endüstriyel ambalaj tedarikçisi olarak, yüksek kalite ve sürdürülebilir iş ortaklığı ilkeleriyle sektöre yön vermek.",
+    "features": {
+      "yearsExperience": {
+        "title": "10+ Yıllık Tecrübe",
+        "description": "2012'den bu yana sektörde edindiğimiz deneyim ile yanınızdayız."
+      },
+      "reliablePartner": {
+        "title": "Güvenilir İş Ortağı",
+        "description": "Müşterilerimizle kurduğumuz ilişkilerde şeffaflık ve süreklilik."
+      },
+      "fastDelivery": {
+        "title": "Hızlı Teslimat",
+        "description": "Siparişleriniz en kısa sürede kapınıza ulaştırılır."
+      },
+      "qualityGuarantee": {
+        "title": "Kalite Garantisi",
+        "description": "Tüm ürünlerimiz ulusal ve uluslararası standartlara uygun."
+      },
+      "importExport": {
+        "title": "İthalat & İhracat",
+        "description": "Güvenilir lojistik desteği ile ithalat ve ihracat hizmetleri."
+      },
+      "wideRange": {
+        "title": "Geniş Ürün Portföyü",
+        "description": "Her ölçekten işletmeye uygun ambalaj çözümleri."
+      }
+    }
+  },
+  "productDetail": {
+    "notFound": "Ürün Bulunamadı",
+    "backToProducts": "Ürünlere Dön",
+    "featured": "Öne Çıkan",
+    "image": "görsel",
+    "featuresTitle": "Özellikler",
+    "usageAreasTitle": "Kullanım Alanları",
+    "advantagesTitle": "Avantajlar",
+    "getInfo": "Teknik Bilgi Al",
+    "backToCategory": "Kategoriye Dön",
+    "features": {
+      "feature1": "Yüksek performanslı tasarım",
+      "feature2": "Dayanıklı ve uzun ömürlü",
+      "feature3": "Kolay kullanım",
+      "feature4": "Düşük bakım maliyeti",
+      "feature5": "Profesyonel kalite",
+      "feature6": "Güvenilir performans"
+    },
+    "usageAreas": {
+      "area1": "Lojistik ve depolama",
+      "area2": "Üretim tesisleri",
+      "area3": "Gıda sektörü",
+      "area4": "İnşaat malzemeleri",
+      "area5": "Tekstil sektörü",
+      "area6": "Otomotiv sanayi"
+    },
+    "advantages": {
+      "advantage1": "Zaman ve işgücü tasarrufu",
+      "advantage2": "Profesyonel ambalaj kalitesi",
+      "advantage3": "Ürün güvenliği",
+      "advantage4": "Maliyet optimizasyonu"
+    }
+  },
+  "contactForm": {
+    "title": "Mesaj Gönderin",
+    "name": "İsim Soyisim *",
+    "namePlaceholder": "Adınız Soyadınız",
+    "email": "E-posta *",
+    "emailPlaceholder": "ornek@email.com",
+    "phone": "Telefon",
+    "phonePlaceholder": "+90 5XX XXX XX XX",
+    "company": "Firma",
+    "companyPlaceholder": "Firma Adı",
+    "subject": "Konu *",
+    "subjectPlaceholder": "Mesajınızın konusu",
+    "message": "Mesaj *",
+    "messagePlaceholder": "Mesajınızı buraya yazın...",
+    "submitButton": "Mesaj Gönder",
+    "submitting": "Gönderiliyor...",
+    "successTitle": "Mesajınız Gönderildi!",
+    "successMessage": "En kısa sürede size dönüş yapacağız.",
+    "newMessageButton": "Yeni Mesaj Gönder",
+    "errors": {
+      "nameMin": "İsim en az 2 karakter olmalıdır",
+      "emailInvalid": "Geçerli bir e-posta adresi giriniz",
+      "subjectMin": "Konu en az 3 karakter olmalıdır",
+      "messageMin": "Mesaj en az 10 karakter olmalıdır",
+      "sendError": "Mesaj gönderilemedi"
+    }
+  }
+}
