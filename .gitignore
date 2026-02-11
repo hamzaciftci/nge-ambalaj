@@ -45,6 +45,7 @@ nul
 
 # Claude
 .claude/
+public/uploads/
 
 # Revize source materials
 revize/

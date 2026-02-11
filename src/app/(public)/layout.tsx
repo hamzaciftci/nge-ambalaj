@@ -46,7 +46,15 @@ async function getLayoutData() {
     phone: rawSettings.phone,
     email: rawSettings.email,
     address: rawSettings.address,
-    socialLinks: rawSettings.socialLinks as { facebook?: string; instagram?: string; linkedin?: string } | null,
+    footerText: rawSettings.footerText,
+    footerTextEn: rawSettings.footerTextEn,
+    socialLinks: rawSettings.socialLinks as {
+      facebook?: string;
+      instagram?: string;
+      linkedin?: string;
+      twitter?: string;
+      youtube?: string;
+    } | null,
   } : null;
 
   return { categories, settings, menuItems };

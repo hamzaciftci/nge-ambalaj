@@ -1,30 +1,10 @@
 import { NextResponse } from "next/server";
-import { put, del } from "@vercel/blob";
 import { verifySession } from "@/lib/auth";
+import { join } from "path";
+import { stat, mkdir, writeFile, unlink } from "fs/promises";
+import { cwd } from "process";
 
 export const dynamic = "force-dynamic";
-
-// Allowed Vercel Blob hostnames
-const ALLOWED_BLOB_HOSTNAMES = [
-  "public.blob.vercel-storage.com",
-  ".public.blob.vercel-storage.com",
-  ".vercel-storage.com",
-];
-
-/**
- * Validate that a URL is a Vercel Blob URL
- */
-function isValidBlobUrl(urlString: string): boolean {
-  try {
-    const url = new URL(urlString);
-    return ALLOWED_BLOB_HOSTNAMES.some(
-      (hostname) =>
-        url.hostname === hostname || url.hostname.endsWith(hostname)
-    );
-  } catch {
-    return false;
-  }
-}
 
 export async function POST(request: Request) {
   try {
@@ -65,13 +45,38 @@ export async function POST(request: Request) {
       .replace(/[^a-zA-Z0-9._-]/g, "_")
       .substring(0, 100);
 
-    const blob = await put(sanitizedName, file, {
-      access: "public",
-      addRandomSuffix: true,
-    });
+    // Save to local file system
+    try {
+      const uploadDir = join(cwd(), "public", "uploads");
+      try {
+        await stat(uploadDir);
+      } catch (e: any) {
+        if (e.code === "ENOENT") {
+          await mkdir(uploadDir, { recursive: true });
+        } else {
+          throw e;
+        }
+      }
 
-    return NextResponse.json({ url: blob.url });
-  } catch {
+      const uniqueSuffix = `${Date.now()}-${Math.round(Math.random() * 1e9)}`;
+      const filename = `${uniqueSuffix}-${sanitizedName}`;
+      const filePath = join(uploadDir, filename);
+
+      const bytes = await file.arrayBuffer();
+      const buffer = Buffer.from(bytes);
+      await writeFile(filePath, buffer);
+
+      return NextResponse.json({ url: `/uploads/${filename}` });
+    } catch (error) {
+      console.error("Local upload error:", error);
+      return NextResponse.json(
+        { error: "Yerel dosya yükleme hatası" },
+        { status: 500 }
+      );
+    }
+
+  } catch (error) {
+    console.error("Upload error:", error);
     return NextResponse.json(
       { error: "Dosya yüklenirken bir hata oluştu" },
       { status: 500 }
@@ -96,18 +101,36 @@ export async function DELETE(request: Request) {
       );
     }
 
-    // Validate URL is a Vercel Blob URL to prevent unauthorized deletion of other files
-    if (!isValidBlobUrl(url)) {
-      return NextResponse.json(
-        { error: "Geçersiz dosya URL'si. Sadece yüklenen dosyalar silinebilir." },
-        { status: 400 }
-      );
+    // Handle local file deletion
+    if (url.startsWith("/uploads/")) {
+      try {
+        const filePath = join(cwd(), "public", url);
+        // Security check to prevent directory traversal
+        if (!filePath.startsWith(join(cwd(), "public", "uploads"))) {
+          return NextResponse.json(
+            { error: "Geçersiz dosya yolu" },
+            { status: 400 }
+          );
+        }
+
+        await unlink(filePath);
+        return NextResponse.json({ success: true });
+      } catch (error: any) {
+        // If file doesn't exist, technically it's "gone", so return success or ignore
+        if (error.code !== "ENOENT") {
+          console.error("Local delete error:", error);
+          return NextResponse.json(
+            { error: "Dosya silinirken hata oluştu" },
+            { status: 500 }
+          );
+        }
+        return NextResponse.json({ success: true });
+      }
     }
 
-    await del(url);
-
     return NextResponse.json({ success: true });
-  } catch {
+  } catch (error) {
+    console.error("Delete error:", error);
     return NextResponse.json(
       { error: "Dosya silinirken bir hata oluştu" },
       { status: 500 }

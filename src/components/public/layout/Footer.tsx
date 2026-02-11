@@ -3,7 +3,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useTranslation } from "react-i18next";
-import { Phone, Mail, MapPin, Facebook, Instagram, Linkedin } from "lucide-react";
+import { Phone, Mail, MapPin, Facebook, Instagram, Linkedin, Twitter, Youtube } from "lucide-react";
 
 interface Category {
   id: string;
@@ -17,10 +17,14 @@ interface SiteSettings {
   email?: string | null;
   address?: string | null;
   addressEn?: string | null;
+  footerText?: string | null;
+  footerTextEn?: string | null;
   socialLinks?: {
     facebook?: string;
     instagram?: string;
     linkedin?: string;
+    twitter?: string;
+    youtube?: string;
   } | null;
 }
 
@@ -75,6 +79,12 @@ export default function Footer({ categories, settings }: FooterProps) {
   const address = locale === "en"
     ? (settings?.addressEn || settings?.address || "Adana Organized Industrial Zone T.Özal Blv. No:6 Z:14 Sarıçam / ADANA")
     : (settings?.address || "Adana Organize Sanayi Bölgesi T.Özal Blv. No:6 Z:14 Sarıçam / ADANA");
+
+  // Dynamic footer text (copyright)
+  const footerText = locale === "en"
+    ? (settings?.footerTextEn || settings?.footerText || t.copyright)
+    : (settings?.footerText || t.copyright);
+
   const socialLinks = settings?.socialLinks || {};
 
   return (
@@ -94,13 +104,14 @@ export default function Footer({ categories, settings }: FooterProps) {
             <p className="text-background/80 text-sm leading-relaxed">
               {t.companyDescription}
             </p>
-            <div className="flex gap-3">
+            <div className="flex gap-3 flex-wrap">
               {socialLinks.facebook && (
                 <a
                   href={socialLinks.facebook}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="p-2.5 bg-background/10 rounded-full hover:bg-primary hover:scale-110 transition-all duration-300"
+                  aria-label="Facebook"
                 >
                   <Facebook className="h-5 w-5" />
                 </a>
@@ -111,6 +122,7 @@ export default function Footer({ categories, settings }: FooterProps) {
                   target="_blank"
                   rel="noopener noreferrer"
                   className="p-2.5 bg-background/10 rounded-full hover:bg-primary hover:scale-110 transition-all duration-300"
+                  aria-label="Instagram"
                 >
                   <Instagram className="h-5 w-5" />
                 </a>
@@ -121,11 +133,36 @@ export default function Footer({ categories, settings }: FooterProps) {
                   target="_blank"
                   rel="noopener noreferrer"
                   className="p-2.5 bg-background/10 rounded-full hover:bg-primary hover:scale-110 transition-all duration-300"
+                  aria-label="LinkedIn"
                 >
                   <Linkedin className="h-5 w-5" />
                 </a>
               )}
-              {!socialLinks.facebook && !socialLinks.instagram && !socialLinks.linkedin && (
+              {socialLinks.twitter && (
+                <a
+                  href={socialLinks.twitter}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="p-2.5 bg-background/10 rounded-full hover:bg-primary hover:scale-110 transition-all duration-300"
+                  aria-label="Twitter/X"
+                >
+                  <Twitter className="h-5 w-5" />
+                </a>
+              )}
+              {socialLinks.youtube && (
+                <a
+                  href={socialLinks.youtube}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="p-2.5 bg-background/10 rounded-full hover:bg-primary hover:scale-110 transition-all duration-300"
+                  aria-label="YouTube"
+                >
+                  <Youtube className="h-5 w-5" />
+                </a>
+              )}
+
+              {/* Fallback social icons if none exist */}
+              {Object.values(socialLinks).every(link => !link) && (
                 <>
                   <a
                     href="#"
@@ -226,8 +263,8 @@ export default function Footer({ categories, settings }: FooterProps) {
       {/* Bottom Bar */}
       <div className="border-t border-background/10">
         <div className="container-custom py-6 flex flex-col sm:flex-row justify-between items-center gap-4">
-          <p className="text-background/60 text-sm">{t.copyright}</p>
-          <p className="text-background/60 text-sm">{t.tagline}</p>
+          <p className="text-background/60 text-sm text-center sm:text-left">{footerText}</p>
+          <p className="text-background/60 text-sm text-center sm:text-right">{t.tagline}</p>
         </div>
       </div>
     </footer>

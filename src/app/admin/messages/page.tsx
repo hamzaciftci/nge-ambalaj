@@ -5,6 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { formatDistanceToNow } from "date-fns";
 import { tr } from "date-fns/locale";
 import MarkAsReadButton from "@/components/admin/shared/MarkAsReadButton";
+import DeleteMessageButton from "@/components/admin/shared/DeleteMessageButton";
 
 async function getMessages() {
   return prisma.contactSubmission.findMany({
@@ -43,9 +44,8 @@ export default async function MessagesPage() {
                 <div className="flex items-start justify-between">
                   <div className="flex items-center gap-3">
                     <div
-                      className={`w-2 h-2 rounded-full ${
-                        message.isRead ? "bg-muted-foreground" : "bg-primary"
-                      }`}
+                      className={`w-2 h-2 rounded-full ${message.isRead ? "bg-muted-foreground" : "bg-primary"
+                        }`}
                     />
                     <div>
                       <CardTitle className="text-lg">{message.name}</CardTitle>
@@ -79,8 +79,14 @@ export default async function MessagesPage() {
                 )}
                 <p className="text-sm whitespace-pre-wrap">{message.message}</p>
                 {!message.isRead && (
-                  <div className="mt-4 pt-4 border-t">
+                  <div className="mt-4 pt-4 border-t flex gap-2">
                     <MarkAsReadButton id={message.id} />
+                    <DeleteMessageButton id={message.id} />
+                  </div>
+                )}
+                {message.isRead && (
+                  <div className="mt-4 pt-4 border-t flex gap-2">
+                    <DeleteMessageButton id={message.id} />
                   </div>
                 )}
               </CardContent>
