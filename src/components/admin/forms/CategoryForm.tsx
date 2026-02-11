@@ -28,7 +28,7 @@ const formSchema = z.object({
   slug: z.string().min(2, "Slug en az 2 karakter olmalıdır").regex(/^[a-z0-9-]+$/, "Slug sadece küçük harf, rakam ve tire içerebilir"),
   description: z.string().min(10, "Açıklama en az 10 karakter olmalıdır"),
   descriptionEn: z.string().optional(),
-  image: z.string().url("Geçerli bir URL giriniz"),
+  image: z.string().min(1, "Görsel gereklidir"),
   order: z.number().min(0),
   isActive: z.boolean(),
 });

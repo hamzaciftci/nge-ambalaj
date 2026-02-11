@@ -71,6 +71,7 @@ export async function POST(request: Request) {
       },
     });
   } catch (error) {
+    console.error("Login error:", error);
     // Don't expose error details to client
     return NextResponse.json(
       { error: "Giriş yapılırken bir hata oluştu" },

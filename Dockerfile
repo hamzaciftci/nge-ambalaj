@@ -46,8 +46,8 @@ COPY --from=builder /app/prisma ./prisma
 COPY --from=builder /app/node_modules/.prisma ./node_modules/.prisma
 COPY --from=deps /app/node_modules/sharp ./node_modules/sharp
 
-# Create cache directory with proper permissions
-RUN mkdir -p .next/cache && chown -R nextjs:nodejs .next/cache
+# Create cache and uploads directories with proper permissions
+RUN mkdir -p .next/cache public/uploads && chown -R nextjs:nodejs .next/cache public/uploads
 
 USER nextjs
 

@@ -37,7 +37,7 @@ const formSchema = z.object({
   descriptionEn: z.string().optional(),
   longDescription: z.string().optional(),
   longDescriptionEn: z.string().optional(),
-  image: z.string().url("Geçerli bir URL giriniz"),
+  image: z.string().min(1, "Görsel gereklidir"),
   order: z.number().min(0),
   isActive: z.boolean(),
   isFeatured: z.boolean(),
