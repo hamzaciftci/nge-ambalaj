@@ -129,7 +129,10 @@ export default function ProductForm({ initialData, categories }: ProductFormProp
     }
   };
 
-  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>, isGallery = false) => {
+  const handleImageUpload = async (
+    e: React.ChangeEvent<HTMLInputElement>,
+    onSuccess: (url: string) => void
+  ) => {
     const file = e.target.files?.[0];
     if (!file) return;
 
@@ -149,12 +152,7 @@ export default function ProductForm({ initialData, categories }: ProductFormProp
       }
 
       const { url } = await res.json();
-
-      if (isGallery) {
-        setGalleryImages([...galleryImages, { url, alt: "" }]);
-      } else {
-        form.setValue("image", url, { shouldValidate: true, shouldDirty: true });
-      }
+      onSuccess(url);
       toast.success("Görsel yüklendi");
     } catch (error: any) {
       toast.error(error.message);
@@ -424,7 +422,7 @@ export default function ProductForm({ initialData, categories }: ProductFormProp
                             type="file"
                             accept="image/*"
                             className="hidden"
-                            onChange={(e) => handleImageUpload(e, false)}
+                            onChange={(e) => handleImageUpload(e, (url) => field.onChange(url))}
                             disabled={uploading}
                           />
                           <Button type="button" variant="outline" disabled={uploading} asChild>
@@ -472,7 +470,7 @@ export default function ProductForm({ initialData, categories }: ProductFormProp
                     type="file"
                     accept="image/*"
                     className="hidden"
-                    onChange={(e) => handleImageUpload(e, true)}
+                    onChange={(e) => handleImageUpload(e, (url) => setGalleryImages(prev => [...prev, { url, alt: "" }]))}
                     disabled={uploading}
                   />
                   <div className="w-24 h-24 border-2 border-dashed rounded-lg flex items-center justify-center hover:border-primary transition-colors">
