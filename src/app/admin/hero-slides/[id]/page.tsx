@@ -117,7 +117,7 @@ export default function EditHeroSlidePage({ params }: { params: { id: string } }
       if (!res.ok) throw new Error("Upload failed");
 
       const data = await res.json();
-      form.setValue(field, data.url);
+      form.setValue(field, data.url, { shouldValidate: true, shouldDirty: true });
       toast.success("Görsel yüklendi");
     } catch (error) {
       toast.error("Görsel yüklenirken hata oluştu");

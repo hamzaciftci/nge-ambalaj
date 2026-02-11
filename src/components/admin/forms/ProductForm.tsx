@@ -153,7 +153,7 @@ export default function ProductForm({ initialData, categories }: ProductFormProp
       if (isGallery) {
         setGalleryImages([...galleryImages, { url, alt: "" }]);
       } else {
-        form.setValue("image", url);
+        form.setValue("image", url, { shouldValidate: true, shouldDirty: true });
       }
       toast.success("Görsel yüklendi");
     } catch (error: any) {

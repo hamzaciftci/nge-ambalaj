@@ -142,7 +142,7 @@ export default function SubCategoryForm({ initialData }: SubCategoryFormProps) {
       }
 
       const { url } = await res.json();
-      form.setValue("image", url);
+      form.setValue("image", url, { shouldValidate: true, shouldDirty: true });
       toast.success("Görsel yüklendi");
     } catch (error: any) {
       toast.error(error.message);
