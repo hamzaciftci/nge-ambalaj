@@ -80,6 +80,14 @@ NEXT_PUBLIC_SITE_URL="https://ngeltd.net"
 
 # Blob Storage (opsiyonel - Vercel Blob kullanmaya devam edebilirsiniz)
 BLOB_READ_WRITE_TOKEN="vercel_blob_rw_xxxxx"
+
+# Email Configuration (Nodemailer)
+SMTP_HOST="cp24.hosting.sh.com.tr"
+SMTP_PORT=465
+SMTP_USER="mail@ngeltd.net"
+SMTP_PASS="2,lcmv!aNCSdIedq"
+SMTP_FROM="NGE Ambalaj <mail@ngeltd.net>"
+EMAIL_TO="info@ngeltd.net"
 EOF
 ```
 
