@@ -7,7 +7,7 @@ function getTransporter() {
         const smtpConfig = {
             host: process.env.SMTP_HOST,
             port: parseInt(process.env.SMTP_PORT || "587"),
-            secure: process.env.SMTP_PORT === "465", // true for 465, false for other ports
+            secure: Number(process.env.SMTP_PORT) === 465, // true for 465 (SSL/TLS), false for other ports (STARTTLS)
             auth: {
                 user: process.env.SMTP_USER,
                 pass: process.env.SMTP_PASS,

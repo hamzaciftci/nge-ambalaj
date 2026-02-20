@@ -213,24 +213,6 @@ export default function CategoriesSection({
           })}
         </motion.div>
 
-        {/* View All Button */}
-        <motion.div
-          className="text-center mt-12"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.5, duration: 0.5 }}
-        >
-          <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-            <Link
-              href="/urunler"
-              className="inline-flex items-center gap-2 px-8 py-4 bg-primary text-primary-foreground rounded-lg font-medium transition-all duration-300 hover:shadow-lg hover:shadow-primary/25"
-            >
-              {t.viewAll}
-              <ArrowRight className="h-5 w-5" />
-            </Link>
-          </motion.div>
-        </motion.div>
       </div>
     </section>
   );
