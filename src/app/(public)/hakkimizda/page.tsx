@@ -18,7 +18,7 @@ export default function AboutPage() {
     return null;
   }
 
-  const storyImage = "/about-team.jpg";
+  const storyImage = "/about-experience.jpg";
 
   const paragraphs = [
     t("aboutPage.mainContentParagraph1"),

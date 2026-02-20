@@ -3,6 +3,7 @@ import { z } from "zod";
 import { prisma } from "@/lib/prisma";
 import { verifySession } from "@/lib/auth";
 import { contactRateLimiter, getClientIp, rateLimitResponse } from "@/lib/rate-limit";
+import { sendMail } from "@/lib/mail";
 
 export const dynamic = "force-dynamic";
 
@@ -76,6 +77,28 @@ export async function POST(request: Request) {
         message,
       },
     });
+
+    // Send email notification (fire and forget or wait depending on preference)
+    // We wait to ensure we know if it failed, but we return success for the DB entry regardless
+    try {
+      await sendMail({
+        to: process.env.EMAIL_TO || "info@ngeltd.net",
+        subject: `Yeni İletişim Formu Mesajı: ${subject || "Konu Yok"}`,
+        html: `
+          <h3>Yeni İletişim Formu Mesajı</h3>
+          <p><strong>İsim:</strong> ${name}</p>
+          <p><strong>E-posta:</strong> ${email}</p>
+          <p><strong>Telefon:</strong> ${phone || "Belirtilmedi"}</p>
+          <p><strong>Şirket:</strong> ${company || "Belirtilmedi"}</p>
+          <p><strong>Konu:</strong> ${subject || "Belirtilmedi"}</p>
+          <p><strong>Mesaj:</strong></p>
+          <p>${message.replace(/\n/g, '<br>')}</p>
+        `,
+      });
+    } catch (mailError) {
+      console.error("Email notification failed:", mailError);
+      // We don't fail the whole request because the submission was saved in DB
+    }
 
     return NextResponse.json(
       { success: true, id: submission.id },
